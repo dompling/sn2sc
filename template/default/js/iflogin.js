@@ -1,0 +1,1 @@
+$('#foots').html('Powered by <a class="copyrights" href="http://www.sn2scw.com" target="_blank">sn2scw</a> <a class="copyversions" href="http://www.sn2scw.com">1.0 UTF-8</a>');var url = '/../javascript.php?part=iflogin&url='+window.location.href;$.get(url,function(data){$('#iflogin').html(data);});$('#gzh img').error(function(){$("#gzh").hide();$("#sjfw").show();});

@@ -1,0 +1,673 @@
+<? if(!defined('IN_MYMPS')) exit('Access Denied');
+/*Mymps分类信息系统
+官方网站：http://www.mymps.com.cn*/?>
+<!DOCTYPE html>
+<html lang="zh-CN" class="index_page">
+<head>
+    
+<?php include mymps_tpl('header'); ?>
+    <title>发布信息 - <?=$mymps_global['SiteName']?></title>
+    <link type="text/css" rel="stylesheet" href="template/css/global.css">
+    <link type="text/css" rel="stylesheet" href="template/css/style.css">
+    <link type="text/css" rel="stylesheet" href="template/css/post.css">
+    <!--    <link type="text/css" rel="stylesheet" href="template/css/plugin_tuya.css">-->
+    <!--    <link type="text/css" rel="stylesheet" href="template/css/plugins/uploadImg.css">-->
+    <!--    <script src="<?=$mymps_global['SiteUrl']?>/template/default/js/jquery.min.js" type="text/javascript"></script>-->
+    <!--    <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>-->
+    <!--    <script src="template/js/plugin/uploadImg.js"></script>-->
+    <!--    <script src="template/js/plugin/tuya.js" type="text/javascript"></script>-->
+    <script src="template/js/jquery.min.js" type="text/javascript"></script>
+    <!--    customer css start -->
+    <link rel="stylesheet" type="text/css"
+          href="template/css/customer/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="template/js/customer/layui/css/layui.css">
+    <!--    customer css end -->
+    <!--    customer js start -->
+    <script src="template/js/customer/Sortable.min.js"
+            type="text/javascript"></script>
+    <script src="template/js/customer/lightGallery.min.js"
+            type="text/javascript"></script>
+    <script src="template/js/customer/lg-zoom.min.js" type="text/javascript"></script>
+    <script src="template/js/customer/layui/layui.js" type="text/javascript"></script>
+    <!--    customer js end -->
+    <!-- <script src="template/js/jssdk.js" type="text/javascript"></script> -->
+    <script>window['current'] = '<? echo $id ? "修改" : "发布"; ?>信息';</script>
+    <script language="javascript">
+        function submitForm() {
+            if (document.form1.title.value == "") {
+                alert('请填写信息标题!');
+                document.form1.title.focus();
+                return false
+            }
+            if ($("#title").val()) {
+                if (!isNaN($("#title").val())) {
+                    alert('请填写正确的信息标题!');
+                    $("#title").focus();
+                    return false
+                }
+            }
+            var length = lenthString($("#title").val());
+            if (length < 6 || length > 80) {
+                alert('请填写至少3个汉字，至多40个汉字!');
+                $("#title").focus();
+                return false
+            }
+            // if (document.form1.endtime.value == "") {
+            //     alert('请选择有效期!');
+            //     document.form1.endtime.focus();
+            //     return false
+            // }
+            <?php if(is_array($show_mod_option)){foreach($show_mod_option as $mymps) { if($mymps['required']==1) { ?>
+            if ($("[name='extra[<?=$mymps['identifier']?>]']").val() == '') {
+                alert('<?=$mymps['title']?>不能为空!');
+                $("[name='extra[<?=$mymps['identifier']?>]']").focus();
+                return false
+            }<?php } ?><?php }} ?>
+            if (document.form1.contact_who.value == "") {
+                alert('请填写联系人!');
+                document.form1.contact_who.focus();
+                return false
+            }
+            if ($("#contact_who").val()) {
+                if (!isNaN($("#contact_who").val())) {
+                    alert('请填写正确的联系人!');
+                    document.form1.contact_who.focus();
+                    return false
+                }
+            }
+            if (document.form1.tel.value == "") {
+                alert('请填写联系电话!');
+                document.form1.tel.focus();
+                return false
+            }
+            if ($("#qq").val()) {
+                if (isNaN($("#qq").val())) {
+                    alert('请填写正确的QQ号码!');
+                    document.form1.qq.focus();
+                    return false
+                }
+            }
+            // if (document.form1.content.value == "") {
+            //     alert('请填写信息内容!');
+            //     document.form1.content.focus();
+            //     return false
+            // }
+            // var lenth = lenthString($("#content").val());
+            // if (lenth < 10) {
+            //     alert('请填写至少5个汉字!');
+            //     $("#content").focus();
+            //     return false
+            // }
+            if (lenth > 1000) {
+                alert('您的描述字数太多了，请精简内容描述!');
+                $("#content").focus();
+                return false
+            }<? if($iflogin==0) { ?>
+            if (document.form1.manage_pwd.value == "") {
+                alert('请填写管理密码!');
+                document.form1.manage_pwd.focus();
+                return false
+            }<?php } if($info['imgcode']==1) { ?>
+            if (document.form1.checkcode.value == "") {
+                alert('请填写验证码!');
+                document.form1.checkcode.focus();
+                return false;
+            }<?php } ?>
+            $("#loadingPostdiv").show();
+            return true
+        }
+
+        function chk_authcode() {
+            if ($("#checkcode").val()) {
+                $.get('../javascript.php?part=chk_authcode&value=' + $("#checkcode").val(), function (data) {
+                    if (data != 'success') {
+                        alert(data);
+                        $("#checkcode").focus();
+                        return false
+                    }
+                })
+            }
+        }
+
+        function loadingPost() {
+            var _PageWidth = document.documentElement.clientWidth;
+            var _LoadingLeft = _PageWidth > 215 ? (_PageWidth - 215) / 2 : 0;
+            var _LoadingHtml = '<div id="loadingPostdiv" style="display:none;position:fixed;left:0;width:100%;height:100%;top:0;background:#e1e1e1;opacity:0.8;filter:alpha(opacity=80);z-index:10000;"><div style="position: absolute; cursor1: wait; left: ' + _LoadingLeft + "px; top:40%; width: auto; height: 57px; line-height: 57px; padding-left: 40px; padding-right: 20px; background:#ffffff url(../images/loading.gif) no-repeat scroll 15px 20px; border: 5px solid #CCCCCC; border-radius:5px; color: #000;font-size:14px;\">数据提交中，请等待...</div></div>";
+            document.write(_LoadingHtml)
+        }
+
+        loadingPost();
+    </script>
+    <style>
+        #sortable {
+            -o-user-select: none;
+            -moz-user-select: none; /*火狐 firefox*/
+            -webkit-user-select: none; /*webkit浏览器*/
+            -ms-user-select: none; /*IE10+*/
+            -khtml-user-select: none; /*早期的浏览器*/
+            user-select: none;
+            /*float: left;*/
+        }
+
+        #sortable li {
+            margin: 5px 5px;
+            float: left;
+            border: none;
+            background: none;
+        }
+
+        .img-container {
+            height: 152px;
+            width: 110px;
+            overflow: hidden;
+            border: 1px solid #888888;
+            border-radius: 4px;
+        }
+
+        .delete-img {
+            text-align: center;
+            font-weight: 100;
+            color: #000;
+            font-size: 12px;
+            line-height: 22px;
+            margin-top: 2px;
+        }
+
+        #sortable img {
+            width: 100%;
+            height: 128px;
+        }
+
+        .ui-state-masking {
+            background: #000000;
+            opacity: .5;
+            color: white !important;
+            cursor: move;
+            height: 25px;
+            width: 100%;
+            margin: 0 !important;
+            display: block;
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .upload_label {
+            display: block !important;
+            width: 100%;
+            height: 100%;
+            font-size: 24px;
+            font-weight: 800;
+            text-align: center;
+            line-height: 153px !important;
+            border: 1px solid #888888;
+            border-radius: 4px;
+        }
+
+        .upload_label input {
+            display: none;
+        }
+
+        .ui-state-highlight {
+            width: 110px;
+            height: 160px;
+            border-radius: 4px;
+            background: white;
+            border: 1px red dashed !important;
+        }
+
+        .icon-customer {
+            margin: 5px 5px 0px;
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            background-size: 15px 15px !important;
+            cursor: pointer;
+        }
+
+        .do-mosaic {
+            text-align: center;
+            font-size: 14px;
+            vertical-align: middle;
+            line-height: 32px;
+            height: 32px;
+            margin: 5px 0;
+        }
+
+        .do-mosaic button {
+            background: none;
+            width: 100%;
+            height: 32px;
+            border-radius: 4px;
+            color: #000;
+            border: 1px solid #888888;
+            cursor: pointer;
+        }
+
+        .bg-mosaic {
+            background: url("template/img/mosaic.png") center no-repeat;
+            background-size: 12px 12px;
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+        }
+
+        .download-img {
+            background: url("template/img/download.png") center no-repeat;
+        }
+
+        .cancel {
+            background: url("template/img/cancel.png") center no-repeat;
+        }
+    </style>
+</head>
+<body class="<?=$mymps_global['cfg_tpl_dir']?>">
+<div class="wrapper">
+    
+<?php include mymps_tpl('header_search'); ?>
+    <form id="form1" method="post" enctype="multipart/form-data" action="index.php?mod=post" name="form1"
+          onSubmit="return submitForm();" style="margin-top: 50px;">
+        <? if(empty($child)) { ?><input name="catid" type="hidden" value="<?=$catid?>"><?php } ?>
+        <input name="id" type="hidden" value="<?=$id?>">
+        <input name="action" type="hidden" value="post">
+        <input type="hidden" value="<?=$mixcode?>" name="mixcode"/>
+        <input type="hidden" id="lat" name="lat" value="">
+        <input type="hidden" id="lng" name="lng" value="">
+        <!--填写信息-->
+        <div class="inp_Itembox">
+            <dl class="cfix">
+                <dt>类别</dt>
+                <dd><?=$info['catname']?> <? if(!$id) { ?><a href="index.php?mod=post">(重选)</a><?php } ?></dd>
+            </dl>
+            <dl class="cfix">
+                <dt>标题</dt>
+                <dd><input name="title" id="title" type="text" size="26" value="<?=$info['title']?>"
+                           placeholder="输入标题，40字以内"/>
+                    <br>
+                    请填写品牌车系车型（款式）<br>
+                </dd>
+            </dl>
+            <dl class="cfix">
+                <dt>区域</dt>
+                <dd><select name='areaid' id='areaid'>
+                    <option value=''>请选择区域</option>
+                    <? echo cat_list('area','',$info['areaid']);; ?>                </select></dd>
+                <div class="menu">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </div>
+            </dl>
+            <!--            <dl class="cfix">-->
+            <!--                <dt>有效期</dt>-->
+            <!--                <dd><? echo GetInfoLastTime($info['activetime'],'endtime','wap'); ?></dd>-->
+            <!--                <div class="menu">-->
+            <!--                    <i></i>-->
+            <!--                    <i></i>-->
+            <!--                    <i></i>-->
+            <!--                </div>-->
+            <!--            </dl>-->
+        </div>
+
+        <div class="inp_Itembox">
+            <?php if(is_array($show_mod_option)){foreach($show_mod_option as $mymps) { ?>            <dl class="cfix">
+                <dt><?=$mymps['title']?></dt>
+                <dd>
+                    <?=$mymps['value']?>
+                    <? if(strstr($mymps['value'],'select')) { ?>
+                    <div class="menu">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+                    <?php } ?>
+                </dd>
+            </dl>
+            <?php }} ?>
+        </div>
+
+        <div class="inp_Itembox">
+            <dl class="cfix">
+                <dt>联系人</dt>
+                <dd><input type="text" id="contact_who" placeholder="输入联系人" name="contact_who"
+                           value="<?=$info['contact_who']?>"/></dd>
+            </dl>
+            <dl class="cfix">
+                <dt>手机</dt>
+                <dd><input type="text" id="tel" placeholder="请输入手机号码" name="tel" value="<?=$info['tel']?>"/></dd>
+            </dl>
+        </div>
+
+        <? if($cat['if_upimg']==1) { ?>
+        <!-- <script type="text/javascript" src="/template/default/js/a_ddimgview.js"></script> -->
+        <div class="inp_Itembox" style="overflow:auto; padding:10px 0 10px 10px">
+            <table width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                    <style>
+                        .bigImages {
+                            position: absolute;
+                            z-index: 99px;
+                            width: 100%;
+                            height: 100%;
+                        }
+
+                        .bigImages img {
+                            width: 100%;
+                            height: 100%
+                        }
+                    </style>
+                    <td colspan="2">
+                        <div class="p-line">
+                            <p><label class="p-label">上传图片：</label></p>
+                            <div class="publish-detail-item">
+                                <div id="Pic_pass">
+                                    <p style="color: red;font-size:12px;">
+                                        注：每张照片大写不可超过4M，且最多可以传二十张。
+                                    </p>
+                                    <div class="picDiv">
+                                        <ul style="float: left;margin: 5px">
+                                            <li class='ui-state-default disableSort'
+                                                style="border-radius:4px;height: 152px;width: 110px">
+                                                <label class="upload_label">
+                                                    + <input type="file" name="uploading-images" id="uploadFile"
+                                                             multiple="multiple" accept="image/*">
+                                                </label>
+                                            </li>
+                                        </ul>
+                                        <input type="hidden" name="drop_sort" value="0"/>
+                                        <ul id='sortable'>
+                                            <?php if(is_array($info['upload_old_img'])){foreach($info['upload_old_img'] as $img) { ?>                                            <li class="ui-state-default " data-src="<?=$img['img']['1']?>" style="opacity: 1;">
+                                                <div class="img-container">
+                                                    <span class="ui-state-masking">拖动</span>
+                                                    <img class="img-click" src="<?=$img['thumb']['1']?>"
+                                                         data-src="<?=$img['img']['1']?>">
+                                                    <input type="hidden" class="upload_img"
+                                                           name="upload_img[<?=$img['id']?>]"
+                                                           value="">
+                                                </div>
+                                                <div class="do-mosaic">
+                                                    <button type="button"><i class="bg-mosaic"></i>马赛克</button>
+                                                </div>
+                                                <div class="delete-img">
+                                                    <label class="cancel icon-customer" title="撤回" data-inputvalue=""
+                                                           data-thumbfullpath="<?=$img['thumb']['1']?>"
+                                                           data-src="<?=$img['img']['1']?>"></label>
+                                                    <label class="download-img icon-customer" title="下载图片"></label>
+                                                    <? if($info['action'] === 'edit' ) { ?>
+                                                    <label style="margin-top: -2px" title="删除图片">
+                                                        <input name="delinfoimg[<?=$img['id']?>]" type="checkbox"
+                                                               class="checkbox"
+                                                               value="on">
+                                                        <font>删?</font>
+                                                    </label>
+                                                    <?php } ?>
+                                                </div>
+                                            </li>
+                                            <?php }} ?>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <?php } ?>
+
+        <div class="inp_Itembox">
+            <textarea class="txt" id="content" name="content" placeholder="输入描述文字，不能超过500字"><?=$info['content']?></textarea>
+            <? if($iflogin == 0) { ?>
+            <dl class="cfix">
+                <dt>管理密码</dt>
+                <dd><input name="manage_pwd" type="text" size="26" value="" placeholder="请牢记，用于修改/删除该信息"/>
+                    <br>
+                    用于修改/删除该信息
+                </dd>
+            </dl>
+            <?php } ?>
+        </div>
+
+
+        <? if($info['imgcode'] == 1) { ?>
+        <div class="inp_Itembox">
+            <dl class="cfix">
+                <dt>验证码</dt>
+                <dd><input id="checkcode" name="checkcode" onBlur="chk_authcode()" placeholder="请输入下图验证码" type="text"
+                           size="26"/><img src="<?=$mymps_global['SiteUrl']?>/<?=$mymps_global['cfg_authcodefile']?>?mod=m"
+                                           alt="看不清，请点击刷新" class="authcode" align="absmiddle"
+                                           onClick="this.src=this.src+'?'"/></dd>
+            </dl>
+        </div>
+        <?php } ?>
+
+        <button type="submit" class="fb"><? echo $id ? "保存修改" : "提交发布"; ?></button>
+    </form>
+</div>
+<?php include mymps_tpl('footer'); ?>
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition)
+    } else {
+    }
+
+    function showPosition(position) {
+        document.getElementById("lat").value = position.coords.latitude;
+        document.getElementById("lng").value = position.coords.longitude
+    }
+</script>
+
+<script type="text/javascript">
+    function downloadIamge(imgsrc, name) {//下载图片地址和图片名
+        let image = new Image();
+        // 解决跨域 Canvas 污染问题
+        image.setAttribute("crossOrigin", "anonymous");
+        image.onload = function () {
+            let canvas = document.createElement("canvas");
+            canvas.width = image.width;
+            canvas.height = image.height;
+            let context = canvas.getContext("2d");
+            context.drawImage(image, 0, 0, image.width, image.height);
+            let url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
+            let a = document.createElement("a"); // 生成一个a元素
+            let event = new MouseEvent("click"); // 创建一个单击事件
+            a.download = name || "photo"; // 设置图片名称
+            a.href = url; // 将生成的URL设置为a.href属性
+            a.dispatchEvent(event); // 触发a的单击事件
+        };
+        image.src = imgsrc;
+    }
+
+    layui.use('laydate', function () {
+        const laydate = layui.laydate;
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDay();
+        const str = '-' + month + '-' + day;
+        const min = (year - 15) + str;
+        const max = (year + 15) + str;
+        laydate.render({
+            min: min,
+            max: max,
+            elem: '.datepicker',
+        });
+
+        // laydate.render({
+        //     min: min,
+        //     max: max,
+        //     range: true,
+        //     elem: '#baoxian',
+        // });
+        // laydate.render({
+        //     min: min,
+        //     max: max,
+        //     range: true,
+        //     elem: '#baoxian1',
+        // });
+    });
+
+    new Sortable(document.getElementById('sortable'),
+        {
+            handle: '.ui-state-masking',
+            animation: 150,
+            onUpdate: function () {
+                $('input[name="drop_sort"]').val('1');
+            }
+        }
+    );
+    layui.use('layer', function () { //独立版的layer无需执行这一句
+        const $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+        $('.datepicker').focus(function () {
+            document.activeElement.blur();
+        });
+        const url = '<?=$ajaxUrl?>';
+        $(document).on('click', '.download-img', function () {
+            const thisImg = $(this).parent().parent().data('src');
+            const urlRgx = /([^\.\/\\]+)\.([a-z]+)$/i;
+            const result = thisImg.match(urlRgx);
+            const imageName = (result && result[0]) ? result[0] : new Date().getTime();
+            downloadIamge(thisImg, imageName);
+        });
+
+        $(document).on('click', '.cancel', function () {
+            const imgUrl = $(this).data('src');
+            const thumbFullPath = $(this).data('thumbfullpath');
+            const inputValue = $(this).data('inputValue');
+            const _li = $(this).parents('li');
+            _li.data('src', imgUrl);
+            _li.find('.upload_img').val(inputValue ? inputValue : '');
+            _li.find('.img-click').attr({src: thumbFullPath, 'data-src': imgUrl});
+        });
+
+        $(document).on('click', '.img-click', function (e) {
+            const imgElement = $('#sortable').find('.img-click');
+            const index = $(this).parents('li').index();
+            const dynamicEl = [];
+            imgElement.each(function () {
+                const path = $(this)[0].getAttribute('data-src');
+                dynamicEl.push({
+                    src: path,
+                    thumb: path,
+                    subHtml: '',
+                });
+            });
+            const _sortTable = document.getElementById('sortable');
+            _sortTable.addEventListener('onCloseAfter', function () {
+                window.lgData[_sortTable.getAttribute('lg-uid')].destroy(true);
+            });
+            lightGallery(_sortTable, {
+                index: index,
+                dynamic: true,
+                dynamicEl: dynamicEl,
+            });
+        });
+
+        $(document).on('click', '.do-mosaic', function () {
+            const thisImg = $(this).parent().data('src');
+            const _this = $(this);
+            layer.open({
+                type: 2,
+                title: false,
+                shade: 0.8,
+                id: 'LAY_layuipro',
+                closeBtn: false,
+                area: (document.body.clientWidth - 50) + 'px',
+                scrollbar: false,
+                offset: '20px',
+                btn: ['确定上传', '取消'],
+                btnAlign: 'c',
+                moveType: 1,
+                content: [url + '?action=mosaic&src=' + thisImg, 'no'],
+                yes: function (index) {
+                    const body = layer.getChildFrame('body', index);
+                    const canvas = body.find("#canvas1")[0];
+                    const base64Img = canvas.toDataURL();
+                    const loading = layer.load(1, {shade: [0.5, '#fff']});
+                    $.post(url + '?action=upload_img', {img: base64Img}, function (res) {
+                        layer.close(loading);
+                        if (res.status && res.path) {
+                            _this.parents('li').data(res.full_path[0]);
+                            _this.parent().data('src', res.full_path[0]);
+                            _this.parent().find('.upload_img').val(res.path);
+                            _this.parent().find('.img-click').attr({
+                                src: res.full_path[1],
+                                'data-src': res.full_path[0]
+                            });
+                            layer.msg('上传成功！', {time: 1000}, function () {
+                                layer.close(index);
+                            });
+                        } else {
+                            layer.msg(res.info);
+                        }
+                    }, 'json');
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                    return false;
+                },
+            });
+        });
+        $('#uploadFile').change(function () {
+            const fileObj = $(this)[0];
+            const fileLen = Object.keys(fileObj.files).length;
+            if (fileLen === 0) return false;
+            const loading = layer.load(1, {shade: [0.8, '#fff']});
+            Object.keys(fileObj.files).forEach(function (key) {
+                let formdata = new FormData();
+                formdata.append("uploadFile" + key, fileObj.files[key]);//获取文件
+                $.ajax({
+                    type: 'post',
+                    cache: false,
+                    data: formdata,
+                    dataType: 'json',
+                    processData: false, // 不处理发送的数据，因为data值是Formdata对象，不需要对数据做处理
+                    contentType: false, // 不设置Content-type请求头
+                    url: url + '?action=ajaxuploadimg',
+                    success: function (response) {
+                        if ((fileLen - 1) == key) {
+                            layer.close(loading);
+                        }
+                        const data = response.data;
+                        let html = '';
+                        let sort = $('#sortable li').length;
+                        data.forEach(function (value) {
+                            if (value.status) {
+                                const path = value.path;
+                                const full_path = value.full_path;
+                                html += '<li class="ui-state-default" data-src="' + full_path[0] + '">';
+                                html += '<div class="img-container">';
+                                html += '<span class="ui-state-masking">拖动</span>';
+                                html += '<img class="img-click" data-index="' + sort + '" src="' + full_path[1] + '" data-src="' + full_path[0] + '"/>';
+                                html += '<input type="hidden" class="upload_img"  name="upload_img[new][]" value="' + path + '"/>';
+                                html += '</div>';
+                                html += '<div class="do-mosaic">';
+                                html += '<button type="button"><i class="bg-mosaic"></i>马赛克</button>';
+                                html += '</div>';
+                                html += '<div class="delete-img">';
+                                html += '<label class="cancel icon-customer" title="撤回" data-inputValue="' + path + '"  data-thumbFullPath="' + full_path[1] + '" data-src="' + full_path[0] + '"></label>';
+                                html += '<label class="download-img icon-customer" title="下载图片"></label>';
+                                html += '<label style="margin-top: -2px" title="删除图片">';
+                                html += '<input name="delinfoimg[]" type="checkbox" class="checkbox" value="on">';
+                                html += ' <font>删?</font>';
+                                html += ' </label>';
+                                html += ' </div>';
+                                html += '</li>';
+                                sort += 1;
+                            }
+                        });
+                        $('#sortable').append(html);
+                    }
+                });
+            });
+
+
+        });
+    });
+</script>
+
+</body>
+</html>

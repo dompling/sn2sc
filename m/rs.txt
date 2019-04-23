@@ -1,0 +1,8 @@
+array (
+  'catid' => '260',
+  'parentid' => '254',
+  'catname' => '货车',
+  'template_info' => 'info',
+  'modid' => '16',
+  'usecoin' => '0',
+)

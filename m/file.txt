@@ -1,0 +1,25 @@
+array (
+  'file' => 
+  array (
+    'name' => 
+    array (
+      0 => 'QQ浏览器截图20181210201921.png',
+    ),
+    'type' => 
+    array (
+      0 => 'image/png',
+    ),
+    'tmp_name' => 
+    array (
+      0 => 'E:\\ToolRoot\\Bt\\BtSoft\\WebSoft\\tmp\\php5.2\\phpC40D.tmp',
+    ),
+    'error' => 
+    array (
+      0 => 0,
+    ),
+    'size' => 
+    array (
+      0 => 17276,
+    ),
+  ),
+)
