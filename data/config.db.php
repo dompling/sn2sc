@@ -34,7 +34,7 @@ $cookiepre = "rjmp_";
 
 //cookies加密前缀
 
-$cookiedomain = "www.sn2scw.com";
+$cookiedomain = "www.scsn.top";
 
 $cookiepath = "/";
 
