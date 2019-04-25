@@ -84,13 +84,15 @@ if ($action == 'post') {
         if (($authcodesettings['memberpost'] == 1) && !($randcode = mymps_chk_randcode($checkcode))) {
             redirectmsg('验证码输入错误，请返回重新输入', $backurl);
         }
-    } else if ($iflogin == 0) {
-        if (($authcodesettings['post'] == 1) && !($randcode = mymps_chk_randcode($checkcode))) {
-            redirectmsg('验证码输入错误，请返回重新输入', $backurl);
-        }
+    } else {
+        if ($iflogin == 0) {
+            if (($authcodesettings['post'] == 1) && !($randcode = mymps_chk_randcode($checkcode))) {
+                redirectmsg('验证码输入错误，请返回重新输入', $backurl);
+            }
 
-        if (empty($manage_pwd)) {
-            redirectmsg('管理密码不能为空，该密码用于修改/删除该信息，请谨记!', $backurl);
+            if (empty($manage_pwd)) {
+                redirectmsg('管理密码不能为空，该密码用于修改/删除该信息，请谨记!', $backurl);
+            }
         }
     }
 
@@ -103,9 +105,13 @@ if ($action == 'post') {
         $disallow_telarray = explode(',', $disallow_tel[0]);
 
         if ($disallow_tel[1] == -1) {
-            in_array($tel, $disallow_telarray) && redirectmsg('您的电话号码<b style=\'color:red\'>' . $tel . '</b> 已被管理员加入黑名单!<br />如果您要继续操作，请联系客服。', 'index.php?mod=post&catid=' . $catid . '&areaid=' . $areaid);
-        } else if ($disallow_tel[1] == 0) {
-            in_array($tel, $disallow_telarray) && ($info_level = 0);
+            in_array($tel,
+                $disallow_telarray) && redirectmsg('您的电话号码<b style=\'color:red\'>' . $tel . '</b> 已被管理员加入黑名单!<br />如果您要继续操作，请联系客服。',
+                'index.php?mod=post&catid=' . $catid . '&areaid=' . $areaid);
+        } else {
+            if ($disallow_tel[1] == 0) {
+                in_array($tel, $disallow_telarray) && ($info_level = 0);
+            }
         }
 
         unset($disallow_tel, $disallow_telarray);
@@ -117,7 +123,8 @@ if ($action == 'post') {
         foreach (explode(',', $mymps_global['cfg_forbidden_post_ip']) as $ctrlip) {
             if (preg_match('/^(' . preg_quote($ctrlip = trim($ctrlip), '/') . ')/', $ip)) {
                 $ctrlip = $ctrlip . '%';
-                redirectmsg('您当前的IP <b style=\'color:red\'>' . $ip . '</b> 已被管理员加入黑名单，不允许发布信息！<br />如果您要继续操作，请联系客服。', 'index.php?mod=post&catid=' . $catid . '&areaid=' . $areaid);
+                redirectmsg('您当前的IP <b style=\'color:red\'>' . $ip . '</b> 已被管理员加入黑名单，不允许发布信息！<br />如果您要继续操作，请联系客服。',
+                    'index.php?mod=post&catid=' . $catid . '&areaid=' . $areaid);
                 exit();
             }
         }
@@ -155,7 +162,7 @@ if ($action == 'post') {
                 }
             }
             $img_count = count($upload_img['new']);
-            $insertImg = $upload_img['new'] ? $upload_img['new'] : [];
+            $insertImg = isset($upload_img['new']) ? $upload_img['new'] : array();
             unset($upload_img['new']);
             $img_count += count($upload_img);
             $updateImg = array_filter($upload_img);
@@ -163,7 +170,11 @@ if ($action == 'post') {
                 foreach ($updateImg as $img_id => $img) {
                     if ($img_id && strlen($img) > 0) {
                         $path = explode("\n", $img);
-                        $path = count($path) > 1 ? $path : [$path[0], $path[0]];
+                        $path = count($path) > 1 ? $path : array();
+                        if (empty($path)) {
+                            $path[0] = $path;
+                            $path[1] = $path;
+                        }
                         $db->query('UPDATE `' . $db_mymps . 'info_img` SET
                                     path = \'' . $path[0] . '\',
                                     prepath = \'' . $path[1] . '\',
@@ -179,7 +190,11 @@ if ($action == 'post') {
                 foreach ($insertImg as $img) {
                     if (strlen($img) > 0) {
                         $path = explode("\n", $img);
-                        $path = count($path) > 1 ? $path : [$path[0], $path[0]];
+                        $path = count($path) > 1 ? $path : array();
+                        if (empty($path)) {
+                            $path[0] = $path;
+                            $path[1] = $path;
+                        }
                         $db->query('INSERT INTO `' . $db_mymps . 'info_img`
                                 ( image_id,path,prepath,infoid ,uptime )
                                  VALUES(\'' . $sort . '\',\'' . $path[0] . '\' ,\'' . $path[1] . '\' ,\'' . $id . '\',\'' . $now . '\' )');
@@ -208,17 +223,19 @@ if ($action == 'post') {
             }
 
 
-            $img_path = $db->getRow('SELECT prepath FROM`' . $db_mymps . 'info_img` WHERE infoid=\'' . $id . '\' ORDER BY image_id ASC', 1);
+            $img_path = $db->getRow('SELECT prepath FROM`' . $db_mymps . 'info_img` WHERE infoid=\'' . $id . '\' ORDER BY image_id ASC',
+                1);
             $img_count = mymps_count('info_img', 'WHERE infoid = \'' . $id . '\'');
             $db->query('UPDATE `' . $db_mymps . 'information` SET img_path = \'' . ($img_path['prepath'] ? $img_path['prepath'] : '') . '\',img_count =\'' . $img_count . '\'  WHERE id = \'' . $id . '\'');
 
-            $sql = $k = $v = NULL;
+            $sql = $k = $v = null;
             if (is_array($extra) && (1 < $d['modid'])) {
                 foreach ($extra as $k => $v) {
-                    $sql .= (is_array($v) ? '`' . $k . '` = \'' . implode(',', $v) . '\',' : '`' . $k . '` = \'' . $v . '\',');
+                    $sql .= (is_array($v) ? '`' . $k . '` = \'' . implode(',',
+                            $v) . '\',' : '`' . $k . '` = \'' . $v . '\',');
                 }
 
-                $sql = ($sql ? substr($sql, 0, -1) : NULL);
+                $sql = ($sql ? substr($sql, 0, -1) : null);
 
                 if ($sql) {
                     $db->query('UPDATE `' . $db_mymps . 'information_' . $d[modid] . '` SET ' . $sql . ' WHERE id = \'' . $id . '\'');
@@ -238,7 +255,8 @@ if ($action == 'post') {
 
             //发布信息
             if ($iflogin == 1) {
-                $db->getOne('SELECT id FROM `' . $db_mymps . 'information` WHERE title = \'' . $title . '\' AND userid = \'' . $s_uid . '\'') && redirectmsg('本信息标题已经存在，本站禁止发布重复信息！请更换标题。或者您已经发过同样信息想重复发布，可到帐号管理后台进行刷新操作即可。', $backurl);
+                $db->getOne('SELECT id FROM `' . $db_mymps . 'information` WHERE title = \'' . $title . '\' AND userid = \'' . $s_uid . '\'') && redirectmsg('本信息标题已经存在，本站禁止发布重复信息！请更换标题。或者您已经发过同样信息想重复发布，可到帐号管理后台进行刷新操作即可。',
+                    $backurl);
 //会员发布信息数量限制
                 $row = $db->getRow('SELECT a.per_certify,a.com_certify,a.status,a.money_own,b.perday_maxpost FROM `' . $db_mymps . 'member` AS a LEFT JOIN `' . $db_mymps . 'member_level` AS b ON a.levelid = b.id WHERE a.userid = \'' . $s_uid . '\'');
                 $perday_maxpost = $row['perday_maxpost'];
@@ -248,13 +266,16 @@ if ($action == 'post') {
                 }
 
                 if (!(empty($perday_maxpost))) {
-                    $count = mymps_count('information', 'WHERE userid LIKE \'' . $s_uid . '\' AND begintime > \'' . mktime(0, 0, 0) . '\'');
-                    ($perday_maxpost <= $count) && redirectmsg('很抱歉！您当前的会员级别每天只能发布 <b style=\'color:red\'>' . $perday_maxpost . '</b> 条信息<br />如果您要继续操作，请联系客服。', 'javascipt:history.back();');
+                    $count = mymps_count('information',
+                        'WHERE userid LIKE \'' . $s_uid . '\' AND begintime > \'' . mktime(0, 0, 0) . '\'');
+                    ($perday_maxpost <= $count) && redirectmsg('很抱歉！您当前的会员级别每天只能发布 <b style=\'color:red\'>' . $perday_maxpost . '</b> 条信息<br />如果您要继续操作，请联系客服。',
+                        'javascipt:history.back();');
                 }
 
                 if (!(empty($perpost_money_cost))) {
                     if ($row['money_own'] < $perpost_money_cost) {
-                        redirectmsg('您当前金币余额不足，发布一条信息需要支付' . $perpost_money_cost . '个金币！', 'javascript:history.back();');
+                        redirectmsg('您当前金币余额不足，发布一条信息需要支付' . $perpost_money_cost . '个金币！',
+                            'javascript:history.back();');
                         exit();
                     }
                 }
@@ -281,8 +302,10 @@ if ($action == 'post') {
                 $manage_pwd = md5($manage_pwd);
                 //游客发布信息数量限制
                 if ($mymps_global['cfg_if_nonmember_info'] == 1 && $mymps_global['cfg_nonmember_perday_post'] > 0) {
-                    $count = mymps_count("information", "WHERE ip = '$ip' AND begintime > '" . mktime(0, 0, 0) . "' AND ismember = '0'");
-                    $count >= $mymps_global[cfg_nonmember_perday_post] && redirectmsg("很抱歉！游客每天只能发布 <b style='color:red'>" . $mymps_global[cfg_nonmember_perday_post] . "</b> 条信息<br />如果您要继续操作，请联系客服。", "index.php?mod=post&catid=" . $catid . "&areaid=" . $areaid);
+                    $count = mymps_count("information",
+                        "WHERE ip = '$ip' AND begintime > '" . mktime(0, 0, 0) . "' AND ismember = '0'");
+                    $count >= $mymps_global[cfg_nonmember_perday_post] && redirectmsg("很抱歉！游客每天只能发布 <b style='color:red'>" . $mymps_global[cfg_nonmember_perday_post] . "</b> 条信息<br />如果您要继续操作，请联系客服。",
+                        "index.php?mod=post&catid=" . $catid . "&areaid=" . $areaid);
                 }
 
                 $sql = "INSERT INTO `{$db_mymps}information` (title,content,begintime,activetime,endtime,catid,gid,catname,dir_typename,areaid,info_level,qq,email,tel,contact_who,img_count,certify,ip,ip2area,manage_pwd,latitude,longitude) VALUES ('$title','$content','$begintime','$activetime','$endtime','$catid','$d[gid]','$catname','$dir_typename','$areaid','$info_level','$qq','$email','$tel','$contact_who','$img_count','$certify','$ip','wap','$manage_pwd','$lat','$lng')";
@@ -291,7 +314,7 @@ if ($action == 'post') {
             $db->query($sql);
             $id = $db->insert_id();
 
-            $k = $v = NULL;
+            $k = $v = null;
             if (is_array($extra) && $d['modid'] > 1) {
                 foreach ($extra as $k => $v) {
                     $v = is_array($v) ? implode(',', $v) : $v;
@@ -311,7 +334,11 @@ if ($action == 'post') {
                 foreach ($insertImg as $img) {
                     if (strlen($img) > 0) {
                         $path = explode("\n", $img);
-                        $path = count($path) > 1 ? $path : [$path[0], $path[0]];
+                        $path = count($path) > 1 ? $path : array();
+                        if (empty($path)) {
+                            $path[0] = $path;
+                            $path[1] = $path;
+                        }
                         $db->query('INSERT INTO `' . $db_mymps . 'info_img`
                                 ( image_id,path,prepath,infoid ,uptime )
                                  VALUES(\'' . $sort . '\',\'' . $path[0] . '\' ,\'' . $path[1] . '\' ,\'' . $id . '\',\'' . $now . '\' )');
@@ -356,7 +383,8 @@ if ($action == 'post') {
         } else {
             $info['imgcode'] = $authcodesettings['post'] == 1 ? 1 : '';
         }
-        $info['content'] = $mymps_global['cfg_post_editor'] == 1 ? clear_html($info['content'], false) : $info['content'];
+        $info['content'] = $mymps_global['cfg_post_editor'] == 1 ? clear_html($info['content'],
+            false) : $info['content'];
         $info['content'] = de_textarea_post_change($info['content']);
         //$info['content'] = str_replace(array("<br /><br />","<br />"),array("  ","&nbsp;"),$info['content']);
         $catid = $info['catid'];

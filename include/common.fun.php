@@ -27,15 +27,93 @@ function checkhtml($html)
             $value = str_replace('_uch_tmp_str_', '&', $value);
 
             $value = str_replace(array('\\', '/*'), array('.', '/.'), $value);
-            $skipkeys = array('onabort', 'onactivate', 'onafterprint', 'onafterupdate', 'onbeforeactivate', 'onbeforecopy', 'onbeforecut', 'onbeforedeactivate',
-                'onbeforeeditfocus', 'onbeforepaste', 'onbeforeprint', 'onbeforeunload', 'onbeforeupdate', 'onblur', 'onbounce', 'oncellchange', 'onchange',
-                'onclick', 'oncontextmenu', 'oncontrolselect', 'oncopy', 'oncut', 'ondataavailable', 'ondatasetchanged', 'ondatasetcomplete', 'ondblclick',
-                'ondeactivate', 'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'onerror', 'onerrorupdate',
-                'onfilterchange', 'onfinish', 'onfocus', 'onfocusin', 'onfocusout', 'onhelp', 'onkeydown', 'onkeypress', 'onkeyup', 'onlayoutcomplete',
-                'onload', 'onlosecapture', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onmousewheel',
-                'onmove', 'onmoveend', 'onmovestart', 'onpaste', 'onpropertychange', 'onreadystatechange', 'onreset', 'onresize', 'onresizeend', 'onresizestart',
-                'onrowenter', 'onrowexit', 'onrowsdelete', 'onrowsinserted', 'onscroll', 'onselect', 'onselectionchange', 'onselectstart', 'onstart', 'onstop',
-                'onsubmit', 'onunload', 'javascript', 'script', 'eval', 'behaviour', 'expression', 'style', 'class');
+            $skipkeys = array(
+                'onabort',
+                'onactivate',
+                'onafterprint',
+                'onafterupdate',
+                'onbeforeactivate',
+                'onbeforecopy',
+                'onbeforecut',
+                'onbeforedeactivate',
+                'onbeforeeditfocus',
+                'onbeforepaste',
+                'onbeforeprint',
+                'onbeforeunload',
+                'onbeforeupdate',
+                'onblur',
+                'onbounce',
+                'oncellchange',
+                'onchange',
+                'onclick',
+                'oncontextmenu',
+                'oncontrolselect',
+                'oncopy',
+                'oncut',
+                'ondataavailable',
+                'ondatasetchanged',
+                'ondatasetcomplete',
+                'ondblclick',
+                'ondeactivate',
+                'ondrag',
+                'ondragend',
+                'ondragenter',
+                'ondragleave',
+                'ondragover',
+                'ondragstart',
+                'ondrop',
+                'onerror',
+                'onerrorupdate',
+                'onfilterchange',
+                'onfinish',
+                'onfocus',
+                'onfocusin',
+                'onfocusout',
+                'onhelp',
+                'onkeydown',
+                'onkeypress',
+                'onkeyup',
+                'onlayoutcomplete',
+                'onload',
+                'onlosecapture',
+                'onmousedown',
+                'onmouseenter',
+                'onmouseleave',
+                'onmousemove',
+                'onmouseout',
+                'onmouseover',
+                'onmouseup',
+                'onmousewheel',
+                'onmove',
+                'onmoveend',
+                'onmovestart',
+                'onpaste',
+                'onpropertychange',
+                'onreadystatechange',
+                'onreset',
+                'onresize',
+                'onresizeend',
+                'onresizestart',
+                'onrowenter',
+                'onrowexit',
+                'onrowsdelete',
+                'onrowsinserted',
+                'onscroll',
+                'onselect',
+                'onselectionchange',
+                'onselectstart',
+                'onstart',
+                'onstop',
+                'onsubmit',
+                'onunload',
+                'javascript',
+                'script',
+                'eval',
+                'behaviour',
+                'expression',
+                'style',
+                'class'
+            );
             $skipstr = implode('|', $skipkeys);
             $value = preg_replace(array("/($skipstr)/i"), '.', $value);
             if (!preg_match("/^[\/|\s]?($allowtags)(\s+|$)/is", $value)) {
@@ -137,7 +215,7 @@ function get_member_docu($num = 10, $userid = '', $if_check = 1, $typeid = 0)
         $arr['tname_uri'] = Rewrite('store', array('uid' => $row['uid'], 'part' => 'index'));
         $arr['uri'] = Rewrite('store', array('uid' => $row['uid'], 'id' => $row['id'], 'part' => 'document'));
         $docu[] = $arr;
-        $arr = NULL;
+        $arr = null;
     }
     return $docu;
 }
@@ -273,7 +351,7 @@ function die_msg($msg)
 }
 
 /* 调用UCenter函数 */
-function uc_call($func, $params = NULL)
+function uc_call($func, $params = null)
 {
     restore_error_handler();
     if (!function_exists($func)) {
@@ -284,8 +362,14 @@ function uc_call($func, $params = NULL)
     return $res;
 }
 
-function get_editor($editor_name, $type, $value = '', $width = '100%', $height = '400px', $BasePath = '../include/kindeditor')
-{
+function get_editor(
+    $editor_name,
+    $type,
+    $value = '',
+    $width = '100%',
+    $height = '400px',
+    $BasePath = '../include/kindeditor'
+) {
     $html = '';
     $html .= '<script charset="utf-8" src="' . $BasePath . '/kindeditor-min.js"></script><script charset="utf-8" src="' . $BasePath . '/lang/zh_CN.js"></script>';
 
@@ -425,7 +509,7 @@ function write_msg($msg = "", $url = "javascript:history.go(-1);", $action = "")
     }
     //is_object($db) && $db->Close();
     if (!defined('NO_EXIT')) {
-        $mymps_global = $db = $db_mymps = $charset = $timestamp = NULL;
+        $mymps_global = $db = $db_mymps = $charset = $timestamp = null;
         exit;
     }
 }
@@ -471,13 +555,13 @@ function setParam($param1, $rewrite = 'active', $pre = '', $htmlpath = '')
         $param = $pre;
         foreach ($param1 as $key) {
             global ${$key};
-            $param .= ${$key} != NULL ? urlencode($key) . '-' . ${$key} . '-' : '';
+            $param .= ${$key} != null ? urlencode($key) . '-' . ${$key} . '-' : '';
         }
     } elseif ($rewrite == 'rewrite_py') {
         $param = '';
         foreach ($param1 as $key) {
             global ${$key};
-            $param .= ${$key} != NULL ? urlencode($key) . '-' . ${$key} . '-' : '';
+            $param .= ${$key} != null ? urlencode($key) . '-' . ${$key} . '-' : '';
         }
     } elseif ($rewrite == 'html') {
         $param = $htmlpath;
@@ -490,7 +574,7 @@ function setParam($param1, $rewrite = 'active', $pre = '', $htmlpath = '')
         } else {
             foreach ($param1 as $key) {
                 global ${$key};
-                $param .= ${$key} != NULL ? urlencode($key) . '=' . ${$key} . '&' : '';
+                $param .= ${$key} != null ? urlencode($key) . '=' . ${$key} . '&' : '';
             }
         }
     }
@@ -507,7 +591,7 @@ function get_page_idin2($column = 'id', $sql = '', $number = '')
     while ($row = $db->fetchRow($query)) {
         $idin .= $row[$column] . ',';
     }
-    $idin = $idin ? substr($idin, 0, -1) : NULL;
+    $idin = $idin ? substr($idin, 0, -1) : null;
     return $idin;
 }
 
@@ -523,7 +607,7 @@ function get_page_idin($column = 'id', $sql = '', $cfg_page = '')
     while ($row = $db->fetchRow($query)) {
         $idin .= $row[$column] . ',';
     }
-    $idin = $idin ? substr($idin, 0, -1) : NULL;
+    $idin = $idin ? substr($idin, 0, -1) : null;
     return $idin;
 }
 
@@ -553,55 +637,90 @@ function page2($rewrite = 'active', $ext = '.html')
     $begin = ($begin < 0) ? 1 : $begin;
     if ($rewrite == 'active') {
         $nav .= "<span class=anum>共" . $rows_num . "记录</span> ";
-        if ($page > 1) $nav .= "<a href='?$param" . "page=" . ($page - 1) . "' title='第" . ($page - 1) . "页'><上一页</a>";
-        if ($begin != 1) $nav .= "<a href='?$param' title='第1页'>1 ...</a>";
+        if ($page > 1) {
+            $nav .= "<a href='?$param" . "page=" . ($page - 1) . "' title='第" . ($page - 1) . "页'><上一页</a>";
+        }
+        if ($begin != 1) {
+            $nav .= "<a href='?$param' title='第1页'>1 ...</a>";
+        }
         $end = ($begin + $per_screen > $pages_num) ? $pages_num + 1 : $begin + $per_screen;
         for ($i = $begin; $i < $end; $i++) {
             if (!empty($i)) {
                 $nav .= ($page != $i) ? "<a href='?$param" . "page=$i' title='第{$i}页'>$i</a> " : " <span class=current>$i</span> ";
             }
         }
-        if ($end != $pages_num + 1) $nav .= "<a href='?$param" . "page=$pages_num' title='第{$pages_num}页'>... {$pages_num}</a>";
-        if ($page < $pages_num) $nav .= "<a href='?$param" . "page=" . ($page + 1) . "' title='第" . ($page + 1) . "页'>下一页></a>";
+        if ($end != $pages_num + 1) {
+            $nav .= "<a href='?$param" . "page=$pages_num' title='第{$pages_num}页'>... {$pages_num}</a>";
+        }
+        if ($page < $pages_num) {
+            $nav .= "<a href='?$param" . "page=" . ($page + 1) . "' title='第" . ($page + 1) . "页'>下一页></a>";
+        }
     } elseif ($rewrite == 'rewrite') {
         $nav .= "<span class=anum>共" . $rows_num . "记录</span> ";
-        if ($page > 1) $nav .= "<a href='/$param" . "page-" . ($page - 1) . ".html' title='第" . ($page - 1) . "页'><上一页</a>";
-        if ($begin != 1) $nav .= "<a href='/$param" . "page-1.html' title='第1页'>1 ...</a>";
+        if ($page > 1) {
+            $nav .= "<a href='/$param" . "page-" . ($page - 1) . ".html' title='第" . ($page - 1) . "页'><上一页</a>";
+        }
+        if ($begin != 1) {
+            $nav .= "<a href='/$param" . "page-1.html' title='第1页'>1 ...</a>";
+        }
         $end = ($begin + $per_screen > $pages_num) ? $pages_num + 1 : $begin + $per_screen;
         for ($i = $begin; $i < $end; $i++) {
             if (!empty($i)) {
                 $nav .= ($page != $i) ? "<a href='/$param" . "page-$i.html' title='第{$i}页'>$i</a> " : " <span class=current>$i</span> ";
             }
         }
-        if ($end != $pages_num + 1) $nav .= "<a href='/$param" . "page-$pages_num.html' title='第{$pages_num}页'>... {$pages_num}</a>";
-        if ($page < $pages_num) $nav .= "<a href='/$param" . "page-" . ($page + 1) . ".html' title='第" . ($page + 1) . "页'>下一页></a>";
+        if ($end != $pages_num + 1) {
+            $nav .= "<a href='/$param" . "page-$pages_num.html' title='第{$pages_num}页'>... {$pages_num}</a>";
+        }
+        if ($page < $pages_num) {
+            $nav .= "<a href='/$param" . "page-" . ($page + 1) . ".html' title='第" . ($page + 1) . "页'>下一页></a>";
+        }
     } elseif ($rewrite == 'rewrite_py') {
         $param = '/' . $dir_typename . '/' . $param;
         $nav .= "<span class=anum>共" . $rows_num . "记录</span> ";
-        if ($page > 1) $nav .= "<a href='$param" . "page-" . ($page - 1) . "/' title='第" . ($page - 1) . "页'><上一页</a>";
-        if ($begin != 1) $nav .= "<a href='$param" . "page-1/' title='第1页'>1 ...</a>";
+        if ($page > 1) {
+            $nav .= "<a href='$param" . "page-" . ($page - 1) . "/' title='第" . ($page - 1) . "页'><上一页</a>";
+        }
+        if ($begin != 1) {
+            $nav .= "<a href='$param" . "page-1/' title='第1页'>1 ...</a>";
+        }
         $end = ($begin + $per_screen > $pages_num) ? $pages_num + 1 : $begin + $per_screen;
         for ($i = $begin; $i < $end; $i++) {
             if (!empty($i)) {
                 $nav .= ($page != $i) ? "<a href='$param" . "page-$i/' title='第{$i}页'>$i</a> " : " <span class=current>$i</span> ";
             }
         }
-        if ($end != $pages_num + 1) $nav .= "<a href='$param" . "page-$pages_num/' title='第{$pages_num}页'>... {$pages_num}</a>";
-        if ($page < $pages_num) $nav .= "<a href='$param" . "page-" . ($page + 1) . "/' title='第" . ($page + 1) . "页'>下一页></a>";
+        if ($end != $pages_num + 1) {
+            $nav .= "<a href='$param" . "page-$pages_num/' title='第{$pages_num}页'>... {$pages_num}</a>";
+        }
+        if ($page < $pages_num) {
+            $nav .= "<a href='$param" . "page-" . ($page + 1) . "/' title='第" . ($page + 1) . "页'>下一页></a>";
+        }
     } elseif ($rewrite == 'html') {
         $nav .= "<span class=anum>共" . $rows_num . "记录</span> ";
-        if ($page > 1) $nav .= "<a href='$param" . "list_" . ($page - 1) . $ext . "' title='第" . ($page - 1) . "页'><上一页</a>";
-        if ($begin != 1) $nav .= "<a href='$param" . "list_1" . $ext . "' title='第1页'>1 ...</a>";
+        if ($page > 1) {
+            $nav .= "<a href='$param" . "list_" . ($page - 1) . $ext . "' title='第" . ($page - 1) . "页'><上一页</a>";
+        }
+        if ($begin != 1) {
+            $nav .= "<a href='$param" . "list_1" . $ext . "' title='第1页'>1 ...</a>";
+        }
         $end = ($begin + $per_screen > $pages_num) ? $pages_num + 1 : $begin + $per_screen;
         for ($i = $begin; $i < $end; $i++) {
             if (!empty($i)) {
                 $nav .= ($page != $i) ? "<a href='$param" . "list_$i" . $ext . "' title='第{$i}页'>$i</a> " : " <span class=current>$i</span> ";
             }
         }
-        if ($end != $pages_num + 1) $nav .= "<a href='$param" . "list_$pages_num$ext' title='第{$pages_num}页'>... {$pages_num}</a>";
-        if ($page < $pages_num) $nav .= "<a href='$param" . "list_" . ($page + 1) . $ext . "' title='第" . ($page + 1) . "页'>下一页></a>";
+        if ($end != $pages_num + 1) {
+            $nav .= "<a href='$param" . "list_$pages_num$ext' title='第{$pages_num}页'>... {$pages_num}</a>";
+        }
+        if ($page < $pages_num) {
+            $nav .= "<a href='$param" . "list_" . ($page + 1) . $ext . "' title='第" . ($page + 1) . "页'>下一页></a>";
+        }
     }
-    if (defined('IN_ADMIN') && $pages_num > 1) $nav .= '<form action="?' . substr($param, 0, -1) . '" method="post" name="pageform" id="pageform"><input name="page" type="text" class="page_input"><input type="submit" style="float:left; margin-left:3px" class="gray" value="GO!"></form>';
+    if (defined('IN_ADMIN') && $pages_num > 1) {
+        $nav .= '<form action="?' . substr($param, 0,
+                -1) . '" method="post" name="pageform" id="pageform"><input name="page" type="text" class="page_input"><input type="submit" style="float:left; margin-left:3px" class="gray" value="GO!"></form>';
+    }
     return $nav;
 }
 
@@ -638,14 +757,17 @@ function GetTime($time = '', $c = 'Y-m-d H:i:s')
 function globalassign()
 {
     global $mymps_global, $docunav, $city;
-    if (CURSCRIPT == 'store') $docunav = get_member_docunav();
+    if (CURSCRIPT == 'store') {
+        $docunav = get_member_docunav();
+    }
 }
 
 function mymps_tpl($str, $curscript = '')
 {
     global $mymps_global;
     $mymps_global['SiteStat'] = htmlspecialchars_decode($mymps_global['SiteStat']);
-    $mymps_global['SiteStat'] = str_replace('type=\'/javascript\'', 'type=\'text/javascript\'', $mymps_global['SiteStat']);
+    $mymps_global['SiteStat'] = str_replace('type=\'/javascript\'', 'type=\'text/javascript\'',
+        $mymps_global['SiteStat']);
     $curscript = $curscript ? $curscript : CURSCRIPT;
 
     if (defined('IN_SMT')) {
@@ -714,20 +836,27 @@ function Spcnw_mid($str, $start, $slen)
     $strs = Array();
     for ($i = 0; $i < $str_len; $i++) {
         if (ord($str[$i]) > 0x80) {
-            if ($str_len > $i + 1) $strs[] = $str[$i] . $str[$i + 1];
-            else $strs[] = '';
+            if ($str_len > $i + 1) {
+                $strs[] = $str[$i] . $str[$i + 1];
+            } else {
+                $strs[] = '';
+            }
             $i++;
         } else {
             $strs[] = $str[$i];
         }
     }
     $wlen = count($strs);
-    if ($wlen < $start) return "";
+    if ($wlen < $start) {
+        return "";
+    }
     $restr = "";
     $startdd = $start;
     $enddd = $startdd + $slen;
     for ($i = $startdd; $i < $enddd; $i++) {
-        if (!isset($strs[$i])) break;
+        if (!isset($strs[$i])) {
+            break;
+        }
         $restr .= $strs[$i];
     }
     return $restr;
@@ -750,12 +879,19 @@ function SpHtml2Text($str)
     $alltext = "";
     $start = 1;
     for ($i = 0; $i < strlen($str); $i++) {
-        if ($start == 0 && $str[$i] == ">") $start = 1;
-        else if ($start == 1) {
-            if ($str[$i] == "<") {
-                $start = 0;
-                $alltext .= " ";
-            } else if (ord($str[$i]) > 31) $alltext .= $str[$i];
+        if ($start == 0 && $str[$i] == ">") {
+            $start = 1;
+        } else {
+            if ($start == 1) {
+                if ($str[$i] == "<") {
+                    $start = 0;
+                    $alltext .= " ";
+                } else {
+                    if (ord($str[$i]) > 31) {
+                        $alltext .= $str[$i];
+                    }
+                }
+            }
         }
     }
     $alltext = str_replace("　", " ", $alltext);
@@ -850,12 +986,13 @@ function substring($str, $start, $length)
             $tmpstr .= substr($str, $i, 1);
         }
     }
-    if ($length < 0) $tmpstr = strrev($tmpstr);
+    if ($length < 0) {
+        $tmpstr = strrev($tmpstr);
+    }
     return $tmpstr;
 }
 
 function substring_utf8($str, $start, $lenth)
-
 {
 
     $len = strlen($str);
@@ -1011,7 +1148,9 @@ function Rewrite($types, $params)
         'uid' => 0
     );
     extract(array_merge($args, $params));
-    if (!$seo) $seo = get_seoset();//获得SEO配置信息
+    if (!$seo) {
+        $seo = get_seoset();
+    }//获得SEO配置信息
     $uri = '';
 
     switch ($types) {
@@ -1036,8 +1175,12 @@ function Rewrite($types, $params)
                 $uri .= $page ? '-page-' . $page : '';
             } elseif ($catid) {
                 $uri .= '/category.php?catid=' . $catid;
-                if ($areaid) $uri .= '&amp;areaid=' . $areaid;
-                if ($page) $uri .= '&amp;page=' . $page;
+                if ($areaid) {
+                    $uri .= '&amp;areaid=' . $areaid;
+                }
+                if ($page) {
+                    $uri .= '&amp;page=' . $page;
+                }
             }
 
             break;
@@ -1099,8 +1242,12 @@ function Rewrite($types, $params)
                 $uri .= $page ? '-page-' . $page : '';
             } elseif (empty($action) && empty($rewrite)) {
                 $uri .= '/corporation.php?catid=' . $catid;
-                if ($page) $uri .= '&amp;page=' . $page;
-                if ($areaid) $uri .= '&amp;areaid=' . $areaid;
+                if ($page) {
+                    $uri .= '&amp;page=' . $page;
+                }
+                if ($areaid) {
+                    $uri .= '&amp;areaid=' . $areaid;
+                }
             }
             break;
         //商品
@@ -1119,10 +1266,18 @@ function Rewrite($types, $params)
                 $uri .= $page ? '-page-' . $page : '';
             } elseif (empty($rewrite)) {
                 $uri .= '/goods.php' . ($catid ? '?catid=' . $catid : '?');
-                if ($orderby) $uri .= '&amp;orderby=' . $orderby;
-                if ($cuxiao) $uri .= '&amp;cuxiao=' . $cuxiao;
-                if ($tuijian) $uri .= '&amp;tuijian=' . $tuijian;
-                if ($page) $uri .= '&amp;page=' . $page;
+                if ($orderby) {
+                    $uri .= '&amp;orderby=' . $orderby;
+                }
+                if ($cuxiao) {
+                    $uri .= '&amp;cuxiao=' . $cuxiao;
+                }
+                if ($tuijian) {
+                    $uri .= '&amp;tuijian=' . $tuijian;
+                }
+                if ($page) {
+                    $uri .= '&amp;page=' . $page;
+                }
             }
             break;
         //新闻
@@ -1138,7 +1293,9 @@ function Rewrite($types, $params)
                 $uri .= $page ? '-page-' . $page : '';
             } elseif ($catid && empty($rewrite) && empty($id) && empty($action)) {
                 $uri .= '/news.php?catid=' . $catid;
-                if ($page) $uri .= '&amp;page=' . $page;
+                if ($page) {
+                    $uri .= '&amp;page=' . $page;
+                }
             }
             break;
         //空间
@@ -1156,7 +1313,9 @@ function Rewrite($types, $params)
             $uri = $mymps_global['SiteUrl'] . '/';
             $rewrite = $seo['seo_force_store'] == 'rewrite' ? 1 : 0;
 
-            if (!$part) $part = 'index';
+            if (!$part) {
+                $part = 'index';
+            }
             if (empty($uid)) {
                 return false;
             } elseif ($uid && $part == 'index') {
@@ -1182,7 +1341,10 @@ function Rewrite($types, $params)
     if ($rewrite == 3 && $types == 'category') {
         $uri .= '/';
     } else {
-        if (in_array($rewrite, array(1, 2))) $uri .= ((empty($part) || $part == 'index') && in_array($types, array('space', 'store'))) ? '/' : $part === 'announce' && !empty($id) ? '' : '.html';
+        if (in_array($rewrite, array(1, 2))) {
+            $uri .= ((empty($part) || $part == 'index') && in_array($types,
+                    array('space', 'store'))) ? '/' : $part === 'announce' && !empty($id) ? '' : '.html';
+        }
     }
 
     unset($seo, $rewrite);
@@ -1227,7 +1389,7 @@ function mymps_get_lifebox($num = '12')
 function mymps_get_links($ifindex = 2, $catid = 0)
 {
     global $db, $db_mymps, $mymps_global;
-    static $links = NULL;
+    static $links = null;
     $data = read_static_cache('friendlink');
     if ($data === false) {
         $sql = "SELECT weblogo, webname, url FROM `{$db_mymps}flink` WHERE ischeck = '2' AND ifindex = '2' ORDER BY ordernumber ASC";
@@ -1237,15 +1399,21 @@ function mymps_get_links($ifindex = 2, $catid = 0)
         foreach ($res AS $row) {
             if (!empty($row['weblogo'])) {
                 $i++;
-                $links['index']['img'][] = array('name' => $row['webname'],
+                $links['index']['img'][] = array(
+                    'name' => $row['webname'],
                     'url' => $row['url'],
-                    'logo' => $row['weblogo']);
+                    'logo' => $row['weblogo']
+                );
             } else {
-                $links['index']['txt'][] = array('name' => $row['webname'],
-                    'url' => $row['url']);
+                $links['index']['txt'][] = array(
+                    'name' => $row['webname'],
+                    'url' => $row['url']
+                );
             }
         }
-        if ($i == 0) $links['index']['img'] = '';
+        if ($i == 0) {
+            $links['index']['img'] = '';
+        }
         $sql = "SELECT id,webname,url,catid FROM `{$db_mymps}flink` WHERE ischeck = '2' AND catid > 0 ORDER BY ordernumber ASC";
         $query = $db->query($sql);
         while ($row = $db->fetchRow($query)) {
@@ -1272,7 +1440,11 @@ function mymps_get_announce($num = '12')
         $list[$row['id']]['titlecolor'] = $row['titlecolor'];
         $list[$row['id']]['author'] = $row['author'];
         $list[$row['id']]['content'] = $row['content'];
-        $list[$row['id']]['uri'] = $row['redirecturl'] ? $row['redirecturl'] : Rewrite('about', array('part' => 'announce', 'id' => $row['id'], 'html_path' => '/announce/index' . $seo['seo_htmlext'] . '#' . $row['id']));
+        $list[$row['id']]['uri'] = $row['redirecturl'] ? $row['redirecturl'] : Rewrite('about', array(
+            'part' => 'announce',
+            'id' => $row['id'],
+            'html_path' => '/announce/index' . $seo['seo_htmlext'] . '#' . $row['id']
+        ));
     }
     return $list;
 }
@@ -1297,7 +1469,8 @@ function get_member_docunav()
     foreach ($data as $key => $value) {
         $docu[$value['typeid']]['typename'] = $value['typename'];
         $docu[$value['typeid']]['typeid'] = $value['typeid'];
-        $docu[$value['typeid']]['uri'] = Rewrite('store', array('uid' => $GLOBALS['uid'], 'part' => 'document', 'typeid' => $value['typeid']));
+        $docu[$value['typeid']]['uri'] = Rewrite('store',
+            array('uid' => $GLOBALS['uid'], 'part' => 'document', 'typeid' => $value['typeid']));
     }
     return $docu;
 }
@@ -1321,9 +1494,12 @@ function get_location($type = 'category', $cat = 0, $str = '', $extra = '', $pde
 {
     global $seo, $pluginsettings, $mymps_global;
     $raquo = $mymps_global['cfg_raquo'];
-    $mymps_global['SiteCity'] = ($mymps_global['SiteCity'] && !in_array($type, array('channel', 'news'))) ? $mymps_global['SiteCity'] : '';
+    $mymps_global['SiteCity'] = ($mymps_global['SiteCity'] && !in_array($type,
+            array('channel', 'news'))) ? $mymps_global['SiteCity'] : '';
     /* 处理前面部分 */
-    if (!$seo) $seo = get_seoset();
+    if (!$seo) {
+        $seo = get_seoset();
+    }
     $location = '当前位置：<a href="' . $mymps_global['SiteUrl'] . '">' . $GLOBALS['mymps_global']['SiteName'] . '</a>';
 
     if ($type == 'news') {
@@ -1332,7 +1508,9 @@ function get_location($type = 'category', $cat = 0, $str = '', $extra = '', $pde
         $page_title = $mymps_global['SiteName'];
     }
 
-    if ($seo['seo_sitename'] && $type == 'index' && empty($cat) && empty($str)) $page_title = $page_title . '-' . $seo['seo_sitename'];
+    if ($seo['seo_sitename'] && $type == 'index' && empty($cat) && empty($str)) {
+        $page_title = $page_title . '-' . $seo['seo_sitename'];
+    }
 
     //有分类的页面
     if (in_array($type, array('category', 'channel', 'corp', 'news'))) {
@@ -1345,10 +1523,14 @@ function get_location($type = 'category', $cat = 0, $str = '', $extra = '', $pde
         }
 
         if ($type == 'channel') {
-            $location .= ' <code>' . $raquo . '</code> <a href="' . Rewrite('news', array('action' => 'index', 'html_path' => $seo['seo_htmldir'] . $seo['seo_htmlnewsdir'] . '/')) . '">热点资讯</a>';
+            $location .= ' <code>' . $raquo . '</code> <a href="' . Rewrite('news', array(
+                    'action' => 'index',
+                    'html_path' => $seo['seo_htmldir'] . $seo['seo_htmlnewsdir'] . '/'
+                )) . '">热点资讯</a>';
             $page_title = '热点资讯-' . $page_title;
         } elseif ($type == 'corp') {
-            $location .= ' <code>' . $raquo . '</code> <a href="' . Rewrite('corp', array('action' => 'index')) . '">商家黄页</a>';
+            $location .= ' <code>' . $raquo . '</code> <a href="' . Rewrite('corp',
+                    array('action' => 'index')) . '">商家黄页</a>';
             $page_title = '商家黄页-' . $page_title;
         }
 
@@ -1414,7 +1596,9 @@ function get_upload_image_view($if_upimg = 1, $infoid = '', $number = '')
 function get_upload_image_edit($if_upimg = 1, $infoid, $number = '')
 {
     global $mymps_global, $db, $db_mymps;
-    if (empty($infoid)) return '';
+    if (empty($infoid)) {
+        return '';
+    }
     if ($if_upimg == 1) {
         $cfg_upimg_number = $number ? $number : ($mymps_global['cfg_upimg_number'] ? $mymps_global['cfg_upimg_number'] : 4);
 
@@ -1453,7 +1637,9 @@ function get_upload_image_edit($if_upimg = 1, $infoid, $number = '')
 function get_info_image($if_upimg = 1, $infoid, $number = '')
 {
     global $mymps_global, $db, $db_mymps;
-    if (empty($infoid)) return '';
+    if (empty($infoid)) {
+        return '';
+    }
     $imagei = array();
     if ($if_upimg == 1) {
 //        $cfg_upimg_number = $number ? $number : ($mymps_global['cfg_upimg_number'] ? $mymps_global['cfg_upimg_number'] : 4);
@@ -1462,14 +1648,10 @@ function get_info_image($if_upimg = 1, $infoid, $number = '')
         foreach ($view as $k => $v) {
             $imagei[$v['id']]['id'] = $v['id'];
             $imagei[$v['id']]['sort'] = $v['image_id'];
-            $imagei[$v['id']]['thumb'] = [
-                $v['prepath'],
-                $mymps_global['SiteUrl'] . $v['prepath'],
-            ];
-            $imagei[$v['id']]['img'] = [
-                $v['path'],
-                $mymps_global['SiteUrl'] . $v['path'],
-            ];
+            $imagei[$v['id']]['thumb'][0] = $v['prepath'];
+            $imagei[$v['id']]['thumb'][1] = $mymps_global['SiteUrl'] . $v['prepath'];
+            $imagei[$v['id']]['img'][0] = $v['path'];
+            $imagei[$v['id']]['img'][1] = $mymps_global['SiteUrl'] . $v['path'];
         }
     }
     return $imagei;
@@ -1495,18 +1677,28 @@ function get_format_time($time)
 
     if ($limit < 60) {
         $strTime = $limit . '秒钟前';
-    } else if ($limit / 60 < 60) {
-        $strTime = floor($limit / 60) . '分钟前';
-    } else if ($limit / 60 / 60 < 24) {
-        $strTime = floor($limit / 60 / 60) . '小时前';
-    } else if ($limit / 60 / 60 > 24 && $limit / 60 / 60 < 48) {
-        $strTime = '昨天' . date('H:i', $time);
-    } else if ($limit / 60 / 60 / 24 > 2 && $limit / 60 / 60 / 24 < 3) {
-        $strTime = '前天' . date('H:i', $time);
-    } else if ($limit / 60 / 60 / 24 < 7) {
-        $strTime = floor($limit / 60 / 60 / 24) . '天前';
     } else {
-        $strTime = date('y-m-d', $time);
+        if ($limit / 60 < 60) {
+            $strTime = floor($limit / 60) . '分钟前';
+        } else {
+            if ($limit / 60 / 60 < 24) {
+                $strTime = floor($limit / 60 / 60) . '小时前';
+            } else {
+                if ($limit / 60 / 60 > 24 && $limit / 60 / 60 < 48) {
+                    $strTime = '昨天' . date('H:i', $time);
+                } else {
+                    if ($limit / 60 / 60 / 24 > 2 && $limit / 60 / 60 / 24 < 3) {
+                        $strTime = '前天' . date('H:i', $time);
+                    } else {
+                        if ($limit / 60 / 60 / 24 < 7) {
+                            $strTime = floor($limit / 60 / 60 / 24) . '天前';
+                        } else {
+                            $strTime = date('y-m-d', $time);
+                        }
+                    }
+                }
+            }
+        }
     }
     return $strTime;
 }
@@ -1533,7 +1725,8 @@ function clearcookies()
 function submit_check($var, $allowget = 0)
 {
     if ($allowget || ($_SERVER['REQUEST_METHOD'] == 'POST' && (empty($_SERVER['HTTP_REFERER']) ||
-                preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])))) {
+                preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1",
+                    $_SERVER['HTTP_REFERER']) == preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])))) {
         return true;
     } else {
         return false;
@@ -1616,8 +1809,11 @@ function GetInfoPostTime($posttime = '', $formname = 'posttime')
     global $info_posttime;
     $info_posttime_form = "<select name='$formname' id='$formname'>";
     foreach ($info_posttime as $k => $v) {
-        if ($k == $posttime) $info_posttime_form .= "<option value='$k' selected>$v</option>\r\n";
-        else $info_posttime_form .= "<option value='$k'>$v</option>\r\n";
+        if ($k == $posttime) {
+            $info_posttime_form .= "<option value='$k' selected>$v</option>\r\n";
+        } else {
+            $info_posttime_form .= "<option value='$k'>$v</option>\r\n";
+        }
     }
     $info_posttime_form .= "</select>\r\n";
     return $info_posttime_form;
@@ -1653,7 +1849,7 @@ function HighLight($str, $keywords, $color = "red")
 
 function convertip_tiny($ip, $ipdatafile)
 {
-    static $fp = NULL, $offset = array(), $index = NULL;
+    static $fp = null, $offset = array(), $index = null;
 
     $ipdot = explode('.', $ip);
     $ip = pack('N', ip2long($ip));
@@ -1661,14 +1857,15 @@ function convertip_tiny($ip, $ipdatafile)
     $ipdot[0] = (int)$ipdot[0];
     $ipdot[1] = (int)$ipdot[1];
 
-    if ($fp === NULL && $fp = @fopen($ipdatafile, 'rb')) {
+    if ($fp === null && $fp = @fopen($ipdatafile, 'rb')) {
         $offset = unpack('Nlen', fread($fp, 4));
         $index = fread($fp, $offset['len'] - 4);
-    } elseif ($fp == FALSE) {
+    } elseif ($fp == false) {
         return '- Invalid IP data file';
     }
     $length = $offset['len'] - 1028;
-    $start = unpack('Vlen', $index[$ipdot[0] * 4] . $index[$ipdot[0] * 4 + 1] . $index[$ipdot[0] * 4 + 2] . $index[$ipdot[0] * 4 + 3]);
+    $start = unpack('Vlen',
+        $index[$ipdot[0] * 4] . $index[$ipdot[0] * 4 + 1] . $index[$ipdot[0] * 4 + 2] . $index[$ipdot[0] * 4 + 3]);
 
     for ($start = $start['len'] * 8 + 1024; $start < $length; $start += 8) {
         if ($index{$start} . $index{$start + 1} . $index{$start + 2} . $index{$start + 3} >= $ip) {
@@ -1715,10 +1912,10 @@ function filter_bad_words($cfg_badwords, $str)
 function verify_badwords_filter($ifopenname, $title = '', $content = '')
 {
     global $mymps_global;
-    static $res = NULL;
+    static $res = null;
     $title = $title ? mhtmlspecialchars(trim($title)) : '';
     $content = $content ? trim($content) : '';
-    if ($res === NULL) {
+    if ($res === null) {
         $data = read_static_cache('badwords');
         if ($data === false) {
             $query = $GLOBALS['db']->query("SELECT words,view,ifcheck FROM `{$GLOBALS['db_mymps']}badwords`");
@@ -1833,7 +2030,7 @@ function ajax_output($ajax_content)
 {
     global $charset;
     @header("Expires: -1");
-    @header("Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0", FALSE);
+    @header("Cache-Control: no-store, private, post-check=0, pre-check=0, max-age=0", false);
     @header("Pragma: no-cache");
     @header('Content-Type: text/xml');
     $mymps .= '<?xml version="1.0" encoding="' . ($charset == "gb2312" ? "gbk" : "utf-8") . '"?><root><![CDATA[';
@@ -1896,7 +2093,8 @@ function mod_identifier()
                                 $arr[$row['id']][$nrow['optionid']]['title'] = $nrow['title'];
                                 $arr[$row['id']][$nrow['optionid']]['type'] = $nrow['type'];
                                 $arr[$row['id']][$nrow['optionid']]['identifier'] = $nrow['identifier'];
-                                $arr[$row['id']][$nrow['optionid']]['publish'] = get_info_var_type($nrow['type'], $nrow['identifier'], $extr, $get_value, 'front');
+                                $arr[$row['id']][$nrow['optionid']]['publish'] = get_info_var_type($nrow['type'],
+                                    $nrow['identifier'], $extr, $get_value, 'front');
                             }
                         }
                     }
@@ -1911,10 +2109,12 @@ function mod_identifier()
     return $res;
 }
 
-function mymps_get_faq($num = 5, $typeid = NULL)
+function mymps_get_faq($num = 5, $typeid = null)
 {
     global $db, $db_mymps, $seo;
-    if (!$seo) $seo = get_seoset();
+    if (!$seo) {
+        $seo = get_seoset();
+    }
     $where = $typeid ? "WHERE typeid = $typeid" : '';
     $sql = "SELECT id,typeid,title FROM {$db_mymps}faq $where ORDER BY id DESC LIMIT 0," . $num;
     $do_mymps = $db->query($sql);
@@ -1946,7 +2146,7 @@ function mymps_get_focus($type = 'index', $num = 5)
     return $list;
 }
 
-function mymps_get_news($num = 10, $catid = NULL, $ifimg = NULL, $leftjoin = NULL, $ifhot = NULL, $orderby = 1)
+function mymps_get_news($num = 10, $catid = null, $ifimg = null, $leftjoin = null, $ifhot = null, $orderby = 1)
 {
     global $city, $db, $db_mymps;
     $cat_limit = empty($catid) ? '' : "AND a.catid IN(" . get_cat_children($catid, 'channel') . ")";
@@ -1985,8 +2185,15 @@ function mymps_get_news($num = 10, $catid = NULL, $ifimg = NULL, $leftjoin = NUL
     return $res;
 }
 
-function mymps_get_members($num = NULL, $level = NULL, $orderby = NULL, $if_certify = NULL, $ifindex = NULL, $iflist = NULL, $catid = NULL)
-{
+function mymps_get_members(
+    $num = null,
+    $level = null,
+    $orderby = null,
+    $if_certify = null,
+    $ifindex = null,
+    $iflist = null,
+    $catid = null
+) {
     global $db, $db_mymps, $mymps_global;
     if ($mymps_global['cfg_if_corp'] == 1) {
         $where = $level ? " WHERE a.levelid = '$level'" : " WHERE 1";
@@ -2027,7 +2234,7 @@ function mymps_get_members($num = NULL, $level = NULL, $orderby = NULL, $if_cert
     return $member_list;
 }
 
-function mymps_get_member_docus($num = 10, $userid = NULL, $typeid = NULL, $orderby = 1)
+function mymps_get_member_docus($num = 10, $userid = null, $typeid = null, $orderby = 1)
 {
     global $db, $db_mymps;
     $where = "WHERE a.if_check = '1'";
@@ -2054,8 +2261,16 @@ function mymps_get_member_docus($num = 10, $userid = NULL, $typeid = NULL, $orde
     return $docu;
 }
 
-function mymps_get_infos($num = 10, $info_level = NULL, $upgrade_type = NULL, $userid = NULL, $catid = NULL, $certify = NULL, $if_hot = NULL, $tel = NULL)
-{
+function mymps_get_infos(
+    $num = 10,
+    $info_level = null,
+    $upgrade_type = null,
+    $userid = null,
+    $catid = null,
+    $certify = null,
+    $if_hot = null,
+    $tel = null
+) {
     global $timestamp, $db_mymps, $mymps_global, $db, $city, $seo;
     $where .= !$info_level ? 'WHERE (a.info_level =1 OR a.info_level = 2)' : 'WHERE a.info_level = ' . $info_level;
     $where .= $userid ? ' AND a.userid = "' . $userid . '" ' : '';
@@ -2095,17 +2310,18 @@ function mymps_get_infos($num = 10, $info_level = NULL, $upgrade_type = NULL, $u
             $arr['contact_who'] = $row['contact_who'];
             $arr['uri'] = Rewrite('info', array('id' => $row['id'], 'dir_typename' => $row['dir_typename']));
             $arr['uri_tname'] = Rewrite('space', array('user' => $row['userid']));
-            $arr['uri_cat'] = Rewrite('category', array('catid' => $row['catid'], 'dir_typename' => $row['dir_typename']));
+            $arr['uri_cat'] = Rewrite('category',
+                array('catid' => $row['catid'], 'dir_typename' => $row['dir_typename']));
             $info_list[] = $arr;
         }
     }
     return $info_list ? $info_list : '';
 }
 
-function mymps_get_groups($num = 10, $glevel = NULL)
+function mymps_get_groups($num = 10, $glevel = null)
 {
     global $db, $db_mymps;
-    static $res = NULL;
+    static $res = null;
     $limit = $num ? " LIMIT 0,$num" : "";
     $where = $glevel ? " WHERE glevel > '$glevel'" : " WHERE glevel > '0'";
     $query = $db->query("SELECT * FROM `{$db_mymps}group` $where ORDER BY dateline DESC $limit");
@@ -2124,7 +2340,7 @@ function mymps_get_groups($num = 10, $glevel = NULL)
     return $res;
 }
 
-function mymps_get_goods($num = 10, $onsale = 1, $shuxing = NULL, $catid = NULL, $userid = NULL, $orderby = 1)
+function mymps_get_goods($num = 10, $onsale = 1, $shuxing = null, $catid = null, $userid = null, $orderby = 1)
 {
     global $db, $db_mymps;
     $limit = $num ? " LIMIT 0,$num" : "";
@@ -2155,7 +2371,7 @@ function mymps_get_goods($num = 10, $onsale = 1, $shuxing = NULL, $catid = NULL,
 function mymps_get_coupons($num = 10, $grade = 0)
 {
     global $db, $db_mymps, $city;
-    static $res = NULL;
+    static $res = null;
     $limit = $num ? " LIMIT 0,$num" : "";
     $where = $grade ? " WHERE grade > '$grade'" : " WHERE grade > '0'";
     $query = $db->query("SELECT * FROM `{$db_mymps}coupon` $where ORDER BY begindate DESC $limit");
@@ -2197,17 +2413,23 @@ function mymps_get_navurl($type, $num = '30')
 /*
  *aboutus.php 取得aboutus
  */
-function get_aboutus($id = NULL)
+function get_aboutus($id = null)
 {
     global $seo;
-    if (!$seo) $seo = get_seoset();
+    if (!$seo) {
+        $seo = get_seoset();
+    }
     if (!$id) {
         $query = $GLOBALS['db']->query("SELECT id,typename,pubdate,dir_typename FROM `{$GLOBALS['db_mymps']}about` ORDER BY displayorder,id ASC");
         while ($row = $GLOBALS['db']->fetchRow($query)) {
             $arr['id'] = $row['id'];
             $arr['typename'] = $row['typename'];
             $arr['pubdate'] = $row['pubdate'];
-            $arr['uri'] = $row['redirect_url'] ? $row['redirect_url'] : Rewrite('about', array('part' => 'aboutus', 'id' => $row['id'], 'html_path' => '/aboutus/' . $row['dir_typename'] . $seo['seo_htmlext']));
+            $arr['uri'] = $row['redirect_url'] ? $row['redirect_url'] : Rewrite('about', array(
+                'part' => 'aboutus',
+                'id' => $row['id'],
+                'html_path' => '/aboutus/' . $row['dir_typename'] . $seo['seo_htmlext']
+            ));
             $aboutus[] = $arr;
         }
     } else {
@@ -2219,10 +2441,12 @@ function get_aboutus($id = NULL)
 /*
  faq.php 取得faq
  */
-function get_faq($id = NULL)
+function get_faq($id = null)
 {
     global $seo, $db, $db_mymps;
-    if (!$seo) $seo = get_seoset();
+    if (!$seo) {
+        $seo = get_seoset();
+    }
     if ($id) {
         $faq = $db->getRow("SELECT id,title,content FROM `{$db_mymps}faq` WHERE id = '$id'");
     } else {
@@ -2230,13 +2454,14 @@ function get_faq($id = NULL)
         while ($row = $db->fetchRow($query)) {
             $faq[$row['id']]['typename'] = $row['typename'];
         }
-        $query = $row = NULL;
+        $query = $row = null;
 
         $query = $db->query("SELECT * FROM `{$db_mymps}faq` ORDER BY id DESC");
         while ($row = $db->fetchRow($query)) {
             $arr['id'] = $row['id'];
             $arr['title'] = $row['title'];
-            $arr['uri'] = Rewrite('about', array('part' => 'faq', 'id' => $row['id'], 'html_path' => '/faq/' . $row['id'] . $seo['seo_htmlext']));
+            $arr['uri'] = Rewrite('about',
+                array('part' => 'faq', 'id' => $row['id'], 'html_path' => '/faq/' . $row['id'] . $seo['seo_htmlext']));
             $faq[$row['typeid']]['faq'][$row['id']] = $arr;
         }
     }
@@ -2254,7 +2479,7 @@ function get_flink()
     while ($row = $db->fetchRow($query)) {
         $flink[$row['id']]['typename'] = $row['typename'];
     }
-    $query = $row = NULL;
+    $query = $row = null;
 
     $query = $db->query("SELECT * FROM `{$db_mymps}flink` WHERE ischeck = '2' {$city_limit} ORDER BY weblogo DESC,ordernumber DESC,id DESC");
     while ($row = $db->fetchRow($query)) {
@@ -2288,7 +2513,8 @@ function chk_member_purview($purview)
 {
     global $db, $db_mymps, $s_uid;
     $member = get_member_group('', $s_uid);
-    !in_array($purview, explode(',', $member['purviews'])) && write_msg("您当前的会员级别没有该栏目的操作权限！<br />请先升级会员级别！", "index.php?m=levelup");
+    !in_array($purview, explode(',', $member['purviews'])) && write_msg("您当前的会员级别没有该栏目的操作权限！<br />请先升级会员级别！",
+        "index.php?m=levelup");
 }
 
 function get_member_group($groupid = '', $userid = '')
@@ -2347,7 +2573,9 @@ function runcron()
                 $i++;
             }
         }
-        if ($i > 0) write_cron_cache();
+        if ($i > 0) {
+            write_cron_cache();
+        }
     } else {
         write_cron_cache();
     }
@@ -2441,9 +2669,12 @@ function mmd5($string, $action = "EN", $rand = '', $db_mixcode = '')
     global $db_mixcode;
     $secret_string = $db_mixcode . $rand . '^fgfZ4_9dfjdf';
 
-    if ($string == "") return "";
-    if ($action == "EN") $md5code = substr(md5($string), 8, 10);
-    else {
+    if ($string == "") {
+        return "";
+    }
+    if ($action == "EN") {
+        $md5code = substr(md5($string), 8, 10);
+    } else {
         $md5code = substr($string, -10);
         $string = substr($string, 0, strlen($string) - 10);
     }
@@ -2455,7 +2686,8 @@ function mmd5($string, $action = "EN", $rand = '', $db_mixcode = '')
         $k = $i % $len;
         $code .= $string[$i] ^ $key[$k];
     }
-    $code = ($action == "DE" ? (substr(md5($code), 8, 10) == $md5code ? $code : NULL) : base64_encode($code) . "$md5code");
+    $code = ($action == "DE" ? (substr(md5($code), 8,
+        10) == $md5code ? $code : null) : base64_encode($code) . "$md5code");
     return $code;
 }
 
@@ -2477,7 +2709,7 @@ function mymps_get_goods_children($catid)
 function get_groups($num = 10, $glevel = 0)
 {
     global $db, $db_mymps;
-    static $res = NULL;
+    static $res = null;
     $limit = $num ? " LIMIT 0,$num" : "";
     $where = $glevel ? " WHERE glevel > '$glevel'" : " WHERE glevel > '0'";
     $query = $db->query("SELECT * FROM `{$db_mymps}group` $where ORDER BY dateline DESC $limit");
@@ -2523,7 +2755,7 @@ function get_goods($num = 10, $onsale = 1, $shuxing = '', $catid = '', $userid =
 function get_coupons($num = 10, $grade = 0)
 {
     global $db, $db_mymps;
-    static $res = NULL;
+    static $res = null;
     $limit = $num ? " LIMIT 0,$num" : "";
     $where = $grade ? " WHERE grade > '$grade'" : " WHERE grade > '0'";
     $query = $db->query("SELECT * FROM `{$db_mymps}coupon` $where ORDER BY begindate DESC $limit");
@@ -2578,7 +2810,156 @@ function replacelight($txt, $word, $replacement, $pre)
 function pcclient()
 {
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $mobile_agents = Array("240x320", "acer", "acoon", "acs-", "abacho", "ahong", "airness", "alcatel", "amoi", "android", "anywhereyougo.com", "applewebkit/525", "applewebkit/532", "asus", "audio", "au-mic", "avantogo", "becker", "benq", "bilbo", "bird", "blackberry", "blazer", "bleu", "cdm-", "compal", "coolpad", "danger", "dbtel", "dopod", "elaine", "eric", "etouch", "fly ", "fly_", "fly-", "go.web", "goodaccess", "gradiente", "grundig", "haier", "hedy", "hitachi", "htc", "huawei", "hutchison", "inno", "ipad", "ipaq", "ipod", "jbrowser", "kddi", "kgt", "kwc", "lenovo", "lg ", "lg2", "lg3", "lg4", "lg5", "lg7", "lg8", "lg9", "lg-", "lge-", "lge9", "longcos", "maemo", "mercator", "meridian", "micromax", "midp", "mini", "mitsu", "mmm", "mmp", "mobi", "mot-", "moto", "nec-", "netfront", "newgen", "nexian", "nf-browser", "nintendo", "nitro", "nokia", "nook", "novarra", "obigo", "palm", "panasonic", "pantech", "philips", "phone", "pg-", "playstation", "pocket", "pt-", "qc-", "qtek", "rover", "sagem", "sama", "samu", "sanyo", "samsung", "sch-", "scooter", "sec-", "sendo", "sgh-", "sharp", "siemens", "sie-", "softbank", "sony", "spice", "sprint", "spv", "symbian", "tablet", "talkabout", "tcl-", "teleca", "telit", "tianyu", "tim-", "toshiba", "tsm", "up.browser", "utec", "utstar", "verykool", "virgin", "vk-", "voda", "voxtel", "vx", "wap", "wellco", "wig browser", "wii", "windows ce", "wireless", "xda", "xde", "zte");
+    $mobile_agents = Array(
+        "240x320",
+        "acer",
+        "acoon",
+        "acs-",
+        "abacho",
+        "ahong",
+        "airness",
+        "alcatel",
+        "amoi",
+        "android",
+        "anywhereyougo.com",
+        "applewebkit/525",
+        "applewebkit/532",
+        "asus",
+        "audio",
+        "au-mic",
+        "avantogo",
+        "becker",
+        "benq",
+        "bilbo",
+        "bird",
+        "blackberry",
+        "blazer",
+        "bleu",
+        "cdm-",
+        "compal",
+        "coolpad",
+        "danger",
+        "dbtel",
+        "dopod",
+        "elaine",
+        "eric",
+        "etouch",
+        "fly ",
+        "fly_",
+        "fly-",
+        "go.web",
+        "goodaccess",
+        "gradiente",
+        "grundig",
+        "haier",
+        "hedy",
+        "hitachi",
+        "htc",
+        "huawei",
+        "hutchison",
+        "inno",
+        "ipad",
+        "ipaq",
+        "ipod",
+        "jbrowser",
+        "kddi",
+        "kgt",
+        "kwc",
+        "lenovo",
+        "lg ",
+        "lg2",
+        "lg3",
+        "lg4",
+        "lg5",
+        "lg7",
+        "lg8",
+        "lg9",
+        "lg-",
+        "lge-",
+        "lge9",
+        "longcos",
+        "maemo",
+        "mercator",
+        "meridian",
+        "micromax",
+        "midp",
+        "mini",
+        "mitsu",
+        "mmm",
+        "mmp",
+        "mobi",
+        "mot-",
+        "moto",
+        "nec-",
+        "netfront",
+        "newgen",
+        "nexian",
+        "nf-browser",
+        "nintendo",
+        "nitro",
+        "nokia",
+        "nook",
+        "novarra",
+        "obigo",
+        "palm",
+        "panasonic",
+        "pantech",
+        "philips",
+        "phone",
+        "pg-",
+        "playstation",
+        "pocket",
+        "pt-",
+        "qc-",
+        "qtek",
+        "rover",
+        "sagem",
+        "sama",
+        "samu",
+        "sanyo",
+        "samsung",
+        "sch-",
+        "scooter",
+        "sec-",
+        "sendo",
+        "sgh-",
+        "sharp",
+        "siemens",
+        "sie-",
+        "softbank",
+        "sony",
+        "spice",
+        "sprint",
+        "spv",
+        "symbian",
+        "tablet",
+        "talkabout",
+        "tcl-",
+        "teleca",
+        "telit",
+        "tianyu",
+        "tim-",
+        "toshiba",
+        "tsm",
+        "up.browser",
+        "utec",
+        "utstar",
+        "verykool",
+        "virgin",
+        "vk-",
+        "voda",
+        "voxtel",
+        "vx",
+        "wap",
+        "wellco",
+        "wig browser",
+        "wii",
+        "windows ce",
+        "wireless",
+        "xda",
+        "xde",
+        "zte"
+    );
     $is_mobile = true;
     foreach ($mobile_agents as $device) {
         if (stristr($user_agent, $device)) {
@@ -2597,7 +2978,8 @@ function get_smplist_cats($cats, $showstyle)
         $listcats[$row['catid']]['catid'] = $row['catid'];
         $listcats[$row['catid']]['catname'] = $row['catname'];
         $listcats[$row['catid']]['icon'] = $row['icon'];
-        $listcats[$row['catid']]['caturi'] = Rewrite('category', array('catid' => $row['catid'], 'html_dir' => $row['html_dir'], 'dir_typename' => $row['dir_typename']));
+        $listcats[$row['catid']]['caturi'] = Rewrite('category',
+            array('catid' => $row['catid'], 'html_dir' => $row['html_dir'], 'dir_typename' => $row['dir_typename']));
         $listcats[$row['catid']]['showstyle'] = $showstyle[$row['catid']];
         $listcats[$row['catid']]['color'] = $row['color'];
     }
@@ -2607,7 +2989,8 @@ function get_smplist_cats($cats, $showstyle)
         $listcats[$r['parentid']]['children'][$r['catid']]['catid'] = $r['catid'];
         $listcats[$r['parentid']]['children'][$r['catid']]['catname'] = $r['catname'];
         $listcats[$r['parentid']]['children'][$r['catid']]['color'] = $r['color'];
-        $listcats[$r['parentid']]['children'][$r['catid']]['caturi'] = Rewrite('category', array('catid' => $r['catid'], 'html_dir' => $r['html_dir'], 'dir_typename' => $r['dir_typename']));
+        $listcats[$r['parentid']]['children'][$r['catid']]['caturi'] = Rewrite('category',
+            array('catid' => $r['catid'], 'html_dir' => $r['html_dir'], 'dir_typename' => $r['dir_typename']));
     }
 
     return $listcats;
@@ -2671,54 +3054,103 @@ function getos()
     $os = false;
     if (@eregi('win', $agent) && strpos($agent, '95')) {
         $os = 'Windows 95';
-    } else if (@eregi('win 9x', $agent) && strpos($agent, '4.90')) {
-        $os = 'Windows ME';
-    } else if (@eregi('win', $agent) && @ereg('98', $agent)) {
-        $os = 'Windows 98';
-    } else if (@eregi('win', $agent) && @eregi('nt 5.1', $agent)) {
-        $os = 'Windows XP';
-    } else if (@eregi('win', $agent) && @eregi('nt 5', $agent)) {
-        $os = 'Windows 2000';
-    } else if (@eregi('win', $agent) && @eregi('nt', $agent)) {
-        $os = 'Windows NT';
-    } else if (@eregi('win', $agent) && @ereg('32', $agent)) {
-        $os = 'Windows 32';
-    } else if (@eregi('linux', $agent)) {
-        $os = 'Linux';
-    } else if (@eregi('unix', $agent)) {
-        $os = 'Unix';
-    } else if (@eregi('sun', $agent) && @eregi('os', $agent)) {
-        $os = 'SunOS';
-    } else if (@eregi('ibm', $agent) && @eregi('os', $agent)) {
-        $os = 'IBM OS/2';
-    } else if (@eregi('Mac', $agent) && @eregi('PC', $agent)) {
-        $os = 'Macintosh';
-    } else if (@eregi('PowerPC', $agent)) {
-        $os = 'PowerPC';
-    } else if (@eregi('AIX', $agent)) {
-        $os = 'AIX';
-    } else if (@eregi('HPUX', $agent)) {
-        $os = 'HPUX';
-    } else if (@eregi('NetBSD', $agent)) {
-        $os = 'NetBSD';
-    } else if (@eregi('BSD', $agent)) {
-        $os = 'BSD';
-    } else if (@ereg('OSF1', $agent)) {
-        $os = 'OSF1';
-    } else if (@ereg('IRIX', $agent)) {
-        $os = 'IRIX';
-    } else if (@eregi('FreeBSD', $agent)) {
-        $os = 'FreeBSD';
-    } else if (@eregi('teleport', $agent)) {
-        $os = 'teleport';
-    } else if (@eregi('flashget', $agent)) {
-        $os = 'flashget';
-    } else if (@eregi('webzip', $agent)) {
-        $os = 'webzip';
-    } else if (@eregi('offline', $agent)) {
-        $os = 'offline';
     } else {
-        $os = 'Unknown';
+        if (@eregi('win 9x', $agent) && strpos($agent, '4.90')) {
+            $os = 'Windows ME';
+        } else {
+            if (@eregi('win', $agent) && @ereg('98', $agent)) {
+                $os = 'Windows 98';
+            } else {
+                if (@eregi('win', $agent) && @eregi('nt 5.1', $agent)) {
+                    $os = 'Windows XP';
+                } else {
+                    if (@eregi('win', $agent) && @eregi('nt 5', $agent)) {
+                        $os = 'Windows 2000';
+                    } else {
+                        if (@eregi('win', $agent) && @eregi('nt', $agent)) {
+                            $os = 'Windows NT';
+                        } else {
+                            if (@eregi('win', $agent) && @ereg('32', $agent)) {
+                                $os = 'Windows 32';
+                            } else {
+                                if (@eregi('linux', $agent)) {
+                                    $os = 'Linux';
+                                } else {
+                                    if (@eregi('unix', $agent)) {
+                                        $os = 'Unix';
+                                    } else {
+                                        if (@eregi('sun', $agent) && @eregi('os', $agent)) {
+                                            $os = 'SunOS';
+                                        } else {
+                                            if (@eregi('ibm', $agent) && @eregi('os', $agent)) {
+                                                $os = 'IBM OS/2';
+                                            } else {
+                                                if (@eregi('Mac', $agent) && @eregi('PC', $agent)) {
+                                                    $os = 'Macintosh';
+                                                } else {
+                                                    if (@eregi('PowerPC', $agent)) {
+                                                        $os = 'PowerPC';
+                                                    } else {
+                                                        if (@eregi('AIX', $agent)) {
+                                                            $os = 'AIX';
+                                                        } else {
+                                                            if (@eregi('HPUX', $agent)) {
+                                                                $os = 'HPUX';
+                                                            } else {
+                                                                if (@eregi('NetBSD', $agent)) {
+                                                                    $os = 'NetBSD';
+                                                                } else {
+                                                                    if (@eregi('BSD', $agent)) {
+                                                                        $os = 'BSD';
+                                                                    } else {
+                                                                        if (@ereg('OSF1', $agent)) {
+                                                                            $os = 'OSF1';
+                                                                        } else {
+                                                                            if (@ereg('IRIX', $agent)) {
+                                                                                $os = 'IRIX';
+                                                                            } else {
+                                                                                if (@eregi('FreeBSD', $agent)) {
+                                                                                    $os = 'FreeBSD';
+                                                                                } else {
+                                                                                    if (@eregi('teleport', $agent)) {
+                                                                                        $os = 'teleport';
+                                                                                    } else {
+                                                                                        if (@eregi('flashget',
+                                                                                            $agent)) {
+                                                                                            $os = 'flashget';
+                                                                                        } else {
+                                                                                            if (@eregi('webzip',
+                                                                                                $agent)) {
+                                                                                                $os = 'webzip';
+                                                                                            } else {
+                                                                                                if (@eregi('offline',
+                                                                                                    $agent)) {
+                                                                                                    $os = 'offline';
+                                                                                                } else {
+                                                                                                    $os = 'Unknown';
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     return $os;
 }
@@ -2730,7 +3162,7 @@ function getport()
 
 function strexists($haystack, $needle)
 {
-    return !(strpos($haystack, $needle) === FALSE);
+    return !(strpos($haystack, $needle) === false);
 }
 
 function is_robot()
@@ -2782,9 +3214,13 @@ function mymps_chk_smsrandcode($getcode = '', $phonenum = '')
     $getcode = trim(strtoupper($getcode));
     $sessioncode = $_SESSION['smscode']['code'];
     if ($phonenum) {
-        if ($timestamp < $_SESSION['smscode']['time'] && $sessioncode == $getcode && $phonenum == $_SESSION['smscode']['phonenum']) return true;
+        if ($timestamp < $_SESSION['smscode']['time'] && $sessioncode == $getcode && $phonenum == $_SESSION['smscode']['phonenum']) {
+            return true;
+        }
     } else {
-        if ($timestamp < $_SESSION['smscode']['time'] && $sessioncode == $getcode) return true;
+        if ($timestamp < $_SESSION['smscode']['time'] && $sessioncode == $getcode) {
+            return true;
+        }
     }
     return false;
 }

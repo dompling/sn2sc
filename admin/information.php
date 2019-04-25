@@ -424,14 +424,18 @@ switch ($part) {
                             $sort += 1;
                         }
                     }
-                    $insertImg = $upload_img['new'] ? $upload_img['new'] : [];
+                    $insertImg = $upload_img['new'] ? $upload_img['new'] : array();
                     unset($upload_img['new']);
                     $updateImg = array_filter($upload_img);
                     if (!empty($updateImg)) {
                         foreach ($updateImg as $img_id => $img) {
                             if ($img_id && strlen($img) > 0) {
                                 $path = explode("\n", $img);
-                                $path = count($path) > 1 ? $path : [$path[0], $path[0]];
+                                $path = count($path) > 1 ? $path : array();
+                                if (empty($path)) {
+                                    $path[0] = $path;
+                                    $path[1] = $path;
+                                }
                                 $db->query('UPDATE `' . $db_mymps . 'info_img` SET
                                     path = \'' . $path[0] . '\',
                                     prepath = \'' . $path[1] . '\',
@@ -447,7 +451,11 @@ switch ($part) {
                         foreach ($insertImg as $img) {
                             if (strlen($img) > 0) {
                                 $path = explode("\n", $img);
-                                $path = count($path) > 1 ? $path : [$path[0], $path[0]];
+                                $path = count($path) > 1 ? $path : array();
+                                if (empty($path)) {
+                                    $path[0] = $path;
+                                    $path[1] = $path;
+                                }
                                 $db->query('INSERT INTO `' . $db_mymps . 'info_img`
                                 ( image_id,path,prepath,infoid ,uptime )
                                  VALUES(\'' . $sort . '\',\'' . $path[0] . '\' ,\'' . $path[1] . '\' ,\'' . $id . '\',\'' . $now . '\' )');

@@ -12,15 +12,15 @@ $db_host = "localhost";
 
 //数据库服务器地址，一般为localhost
 
-$db_name = "sn2scw";
+$db_name = "www_sn2scw_com";
 
 //使用的数据库名称
 
-$db_user = "root";
+$db_user = "www_sn2scw_com";
 
 //数据库帐号
 
-$db_pass = "root";
+$db_pass = "www_sn2scw_com";
 
 //数据库密码
 
@@ -34,7 +34,7 @@ $cookiepre = "rjmp_";
 
 //cookies加密前缀
 
-$cookiedomain = "dom.h.snwst.com";
+$cookiedomain = "www.sn2scw.com";
 
 $cookiepath = "/";
 

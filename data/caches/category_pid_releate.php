@@ -26,6 +26,30 @@ $data = array (
   ),
   1 => 
   array (
+    0 => '296',
+    'catid' => '296',
+    1 => '1',
+    'modid' => '1',
+    2 => 'qiugouxinxi',
+    'dir_typename' => 'qiugouxinxi',
+    3 => 'qiugouxinxi',
+    4 => '求购信息',
+    'catname' => '求购信息',
+    5 => '0',
+    'usecoin' => '0',
+    6 => '0',
+    'parentid' => '0',
+    7 => '2',
+    'if_view' => '2',
+    8 => '3',
+    'catorder' => '3',
+    9 => 'info',
+    'template_info' => 'info',
+    10 => '0',
+    'has_children' => '0',
+  ),
+  2 => 
+  array (
     0 => '264',
     'catid' => '264',
     1 => '1',
@@ -48,7 +72,7 @@ $data = array (
     10 => '1',
     'has_children' => '1',
   ),
-  2 => 
+  3 => 
   array (
     0 => '265',
     'catid' => '265',
@@ -72,7 +96,7 @@ $data = array (
     10 => '1',
     'has_children' => '1',
   ),
-  3 => 
+  4 => 
   array (
     0 => '266',
     'catid' => '266',
@@ -96,7 +120,7 @@ $data = array (
     10 => '1',
     'has_children' => '1',
   ),
-  4 => 
+  5 => 
   array (
     0 => '267',
     'catid' => '267',
@@ -120,7 +144,7 @@ $data = array (
     10 => '1',
     'has_children' => '1',
   ),
-  5 => 
+  6 => 
   array (
     0 => '268',
     'catid' => '268',
@@ -144,7 +168,7 @@ $data = array (
     10 => '1',
     'has_children' => '1',
   ),
-  6 => 
+  7 => 
   array (
     0 => '269',
     'catid' => '269',
@@ -168,7 +192,7 @@ $data = array (
     10 => '1',
     'has_children' => '1',
   ),
-  7 => 
+  8 => 
   array (
     0 => '270',
     'catid' => '270',
@@ -192,7 +216,7 @@ $data = array (
     10 => '1',
     'has_children' => '1',
   ),
-  8 => 
+  9 => 
   array (
     0 => '271',
     'catid' => '271',
@@ -216,7 +240,7 @@ $data = array (
     10 => '1',
     'has_children' => '1',
   ),
-  9 => 
+  10 => 
   array (
     0 => '290',
     'catid' => '290',
@@ -240,7 +264,7 @@ $data = array (
     10 => '5',
     'has_children' => '5',
   ),
-  10 => 
+  11 => 
   array (
     0 => '253',
     'catid' => '253',
@@ -264,7 +288,7 @@ $data = array (
     10 => '4',
     'has_children' => '4',
   ),
-  11 => 
+  12 => 
   array (
     0 => '254',
     'catid' => '254',
@@ -288,7 +312,7 @@ $data = array (
     10 => '2',
     'has_children' => '2',
   ),
-  12 => 
+  13 => 
   array (
     0 => '255',
     'catid' => '255',
@@ -312,7 +336,7 @@ $data = array (
     10 => '2',
     'has_children' => '2',
   ),
-  13 => 
+  14 => 
   array (
     0 => '256',
     'catid' => '256',
@@ -336,7 +360,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  14 => 
+  15 => 
   array (
     0 => '257',
     'catid' => '257',
@@ -360,7 +384,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  15 => 
+  16 => 
   array (
     0 => '258',
     'catid' => '258',
@@ -384,7 +408,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  16 => 
+  17 => 
   array (
     0 => '259',
     'catid' => '259',
@@ -408,7 +432,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  17 => 
+  18 => 
   array (
     0 => '235',
     'catid' => '235',
@@ -432,7 +456,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  18 => 
+  19 => 
   array (
     0 => '236',
     'catid' => '236',
@@ -456,7 +480,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  19 => 
+  20 => 
   array (
     0 => '237',
     'catid' => '237',
@@ -480,7 +504,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  20 => 
+  21 => 
   array (
     0 => '238',
     'catid' => '238',
@@ -504,7 +528,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  21 => 
+  22 => 
   array (
     0 => '260',
     'catid' => '260',
@@ -528,7 +552,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  22 => 
+  23 => 
   array (
     0 => '261',
     'catid' => '261',
@@ -552,7 +576,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  23 => 
+  24 => 
   array (
     0 => '262',
     'catid' => '262',
@@ -576,7 +600,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  24 => 
+  25 => 
   array (
     0 => '263',
     'catid' => '263',
@@ -600,7 +624,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  25 => 
+  26 => 
   array (
     0 => '277',
     'catid' => '277',
@@ -624,7 +648,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  26 => 
+  27 => 
   array (
     0 => '278',
     'catid' => '278',
@@ -648,7 +672,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  27 => 
+  28 => 
   array (
     0 => '279',
     'catid' => '279',
@@ -672,7 +696,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  28 => 
+  29 => 
   array (
     0 => '280',
     'catid' => '280',
@@ -696,7 +720,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  29 => 
+  30 => 
   array (
     0 => '281',
     'catid' => '281',
@@ -720,7 +744,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  30 => 
+  31 => 
   array (
     0 => '282',
     'catid' => '282',
@@ -744,7 +768,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  31 => 
+  32 => 
   array (
     0 => '283',
     'catid' => '283',
@@ -768,7 +792,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  32 => 
+  33 => 
   array (
     0 => '284',
     'catid' => '284',
@@ -792,7 +816,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  33 => 
+  34 => 
   array (
     0 => '291',
     'catid' => '291',
@@ -816,7 +840,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  34 => 
+  35 => 
   array (
     0 => '292',
     'catid' => '292',
@@ -840,7 +864,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  35 => 
+  36 => 
   array (
     0 => '293',
     'catid' => '293',
@@ -864,7 +888,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  36 => 
+  37 => 
   array (
     0 => '294',
     'catid' => '294',
@@ -888,7 +912,7 @@ $data = array (
     10 => '0',
     'has_children' => '0',
   ),
-  37 => 
+  38 => 
   array (
     0 => '295',
     'catid' => '295',

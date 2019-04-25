@@ -91,8 +91,15 @@ function upload_img_num($file = 'filename')
  * @param string $edit_pre_filename 编辑前的文件名
  * @return void
  */
-function start_upload($file_name, $destination_folder, $watermark = 0, $limit_width = '', $limit_height = '', $edit_filename = '', $edit_pre_filename = '')
-{
+function start_upload(
+    $file_name,
+    $destination_folder,
+    $watermark = 0,
+    $limit_width = '',
+    $limit_height = '',
+    $edit_filename = '',
+    $edit_pre_filename = ''
+) {
     global $mymps_global;
     global $timestamp;
     !is_uploaded_file($_FILES[$file_name]['tmp_name']) && write_msg('请重新选择您要上传的图片!');
@@ -109,7 +116,13 @@ function start_upload($file_name, $destination_folder, $watermark = 0, $limit_wi
     } else {
         $destination = MYMPS_ROOT . $edit_filename;
         $small_destination = MYMPS_ROOT . $edit_pre_filename;
-        $forbidarray = array(MYMPS_ROOT . '/images/logo.gif', MYMPS_ROOT . '/images/nopic.gif', MYMPS_ROOT . '/images/nophoto.jpg', MYMPS_ROOT . '/images/noavatar.gif', MYMPS_ROOT . '/images/noavatar_small.gif');
+        $forbidarray = array(
+            MYMPS_ROOT . '/images/logo.gif',
+            MYMPS_ROOT . '/images/nopic.gif',
+            MYMPS_ROOT . '/images/nophoto.jpg',
+            MYMPS_ROOT . '/images/noavatar.gif',
+            MYMPS_ROOT . '/images/noavatar_small.gif'
+        );
         if (!(in_array($destination, $forbidarray)) && ($destination != MYMPS_ROOT)) {
             @unlink($destination);
         }
@@ -161,8 +174,16 @@ function start_upload($file_name, $destination_folder, $watermark = 0, $limit_wi
  * @param [type] $file
  * @return void
  */
-function upload_img($file_data = false, $file_name, $destination_folder, $watermark = 0, $limit_width = '', $limit_height = '', $edit_filename = '', $edit_pre_filename = '')
-{
+function upload_img(
+    $file_data = false,
+    $file_name,
+    $destination_folder,
+    $watermark = 0,
+    $limit_width = '',
+    $limit_height = '',
+    $edit_filename = '',
+    $edit_pre_filename = ''
+) {
     global $mymps_global;
     global $timestamp;
     if ($file_data) {
@@ -183,7 +204,13 @@ function upload_img($file_data = false, $file_name, $destination_folder, $waterm
     } else {
         $destination = MYMPS_ROOT . $edit_filename;
         $small_destination = MYMPS_ROOT . $edit_pre_filename;
-        $forbidarray = array(MYMPS_ROOT . '/images/logo.gif', MYMPS_ROOT . '/images/nopic.gif', MYMPS_ROOT . '/images/nophoto.jpg', MYMPS_ROOT . '/images/noavatar.gif', MYMPS_ROOT . '/images/noavatar_small.gif');
+        $forbidarray = array(
+            MYMPS_ROOT . '/images/logo.gif',
+            MYMPS_ROOT . '/images/nopic.gif',
+            MYMPS_ROOT . '/images/nophoto.jpg',
+            MYMPS_ROOT . '/images/noavatar.gif',
+            MYMPS_ROOT . '/images/noavatar_small.gif'
+        );
         if (!(in_array($destination, $forbidarray)) && ($destination != MYMPS_ROOT)) {
             @unlink($destination);
         }
@@ -237,8 +264,16 @@ function upload_img($file_data = false, $file_name, $destination_folder, $waterm
  * @param [type] $file
  * @return void
  */
-function ajax_upload_img($file_data = false, $file_name, $destination_folder, $watermark = 0, $limit_width = '', $limit_height = '', $edit_filename = '', $edit_pre_filename = '')
-{
+function ajax_upload_img(
+    $file_data = false,
+    $file_name,
+    $destination_folder,
+    $watermark = 0,
+    $limit_width = '',
+    $limit_height = '',
+    $edit_filename = '',
+    $edit_pre_filename = ''
+) {
     $res = array('status' => false, 'info' => '');
     global $mymps_global;
     global $timestamp;
@@ -260,7 +295,13 @@ function ajax_upload_img($file_data = false, $file_name, $destination_folder, $w
     } else {
         $destination = MYMPS_ROOT . $edit_filename;
         $small_destination = MYMPS_ROOT . $edit_pre_filename;
-        $forbidarray = array(MYMPS_ROOT . '/images/logo.gif', MYMPS_ROOT . '/images/nopic.gif', MYMPS_ROOT . '/images/nophoto.jpg', MYMPS_ROOT . '/images/noavatar.gif', MYMPS_ROOT . '/images/noavatar_small.gif');
+        $forbidarray = array(
+            MYMPS_ROOT . '/images/logo.gif',
+            MYMPS_ROOT . '/images/nopic.gif',
+            MYMPS_ROOT . '/images/nophoto.jpg',
+            MYMPS_ROOT . '/images/noavatar.gif',
+            MYMPS_ROOT . '/images/noavatar_small.gif'
+        );
         if (!(in_array($destination, $forbidarray)) && ($destination != MYMPS_ROOT)) {
             @unlink($destination);
         }
@@ -302,10 +343,8 @@ function ajax_upload_img($file_data = false, $file_name, $destination_folder, $w
     $res['status'] = true;
     $res['info'] = '上传成功！';
     $res['path'] = $img . "\n" . $thumb;
-    $res['full_path'] = [
-        $mymps_global['SiteUrl'] . $img,
-        $mymps_global['SiteUrl'] . $thumb,
-    ];
+    $res['full_path'][0] = $mymps_global['SiteUrl'] . $img;
+    $res['full_path'][1] = $mymps_global['SiteUrl'] . $thumb;
     return $res;
 }
 
@@ -423,10 +462,8 @@ function upload_base64($info, $floder)
                 $res['status'] = true;
                 $res['info'] = '上传完成';
                 $res['path'] = '/attachment' . $imgFile . "\n" . '/attachment' . $preImgFile;
-                $res['full_path'] = [
-                    $mymps_global['SiteUrl'] . '/attachment' . $imgFile,
-                    $mymps_global['SiteUrl'] . '/attachment' . $preImgFile,
-                ];
+                $res['full_path'][0] =$mymps_global['SiteUrl'] . '/attachment' . $imgFile;
+                $res['full_path'][1] = $mymps_global['SiteUrl'] . '/attachment' . $preImgFile;
             }
         } else {
             $res['info'] = '图片格式错误，请重新上传';
@@ -561,7 +598,7 @@ function gdversion()
 {
     static $gd_version_number;
 
-    if ($gd_version_number === NULL) {
+    if ($gd_version_number === null) {
         ob_start();
         phpinfo(8);
         $module_info = ob_get_contents();
@@ -583,7 +620,7 @@ function WaterImg($srcFile, $fromGo = 'up')
     include MYMPS_DATA . '/watermark.inc.php';
 
     if ($photo_markup != '1') {
-        return NULL;
+        return null;
     }
 
     $info = '';
@@ -591,15 +628,15 @@ function WaterImg($srcFile, $fromGo = 'up')
     $srcFile_w = $srcInfo[0];
     $srcFile_h = $srcInfo[1];
     if (($srcFile_w < $photo_wwidth) || ($srcFile_h < $photo_wheight)) {
-        return NULL;
+        return null;
     }
 
     if (($fromGo == 'up') && ($photo_markup == '0')) {
-        return NULL;
+        return null;
     }
 
     if (($fromGo == 'down') && ($photo_markdown == '0')) {
-        return NULL;
+        return null;
     }
 
     $trueMarkimg = MYMPS_ROOT . $photo_markimg;
@@ -607,14 +644,15 @@ function WaterImg($srcFile, $fromGo = 'up')
         $trueMarkimg = '';
     }
 
-    ImgWaterMark($srcFile, $photo_waterpos, $trueMarkimg, $photo_watertext, $photo_fontsize, $photo_fontcolor, $photo_diaphaneity);
+    ImgWaterMark($srcFile, $photo_waterpos, $trueMarkimg, $photo_watertext, $photo_fontsize, $photo_fontcolor,
+        $photo_diaphaneity);
 }
 
 function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font = 5, $w_color = '#FF0000', $w_pct)
 {
     $font_type = MYMPS_DATA . '/ttf/number.ttf';
     if (empty($srcFile) || !(file_exists($srcFile))) {
-        return NULL;
+        return null;
     }
 
     $info = '';
@@ -625,7 +663,7 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
     switch ($srcInfo[2]) {
         case 1:
             if (!(function_exists('imagecreatefromgif'))) {
-                return NULL;
+                return null;
             }
 
             $srcFile_img = imagecreatefromgif($srcFile);
@@ -633,7 +671,7 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
 
         case 2:
             if (!(function_exists('imagecreatefromjpeg'))) {
-                return NULL;
+                return null;
             }
 
             $srcFile_img = imagecreatefromjpeg($srcFile);
@@ -641,7 +679,7 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
 
         case 3:
             if (!(function_exists('imagecreatefrompng'))) {
-                return NULL;
+                return null;
             }
 
             $srcFile_img = imagecreatefrompng($srcFile);
@@ -649,14 +687,14 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
 
         case 6:
             if (!(function_exists('imagewbmp'))) {
-                return NULL;
+                return null;
             }
 
             $srcFile_img = imagecreatefromwbmp($srcFile);
             break;
 
         default:
-            return NULL;
+            return null;
     }
 
     if (!(empty($w_img)) && file_exists($w_img)) {
@@ -669,7 +707,7 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
         switch ($water_info[2]) {
             case 1:
                 if (!(function_exists('imagecreatefromgif'))) {
-                    return NULL;
+                    return null;
                 }
 
                 $water_img = imagecreatefromgif($w_img);
@@ -677,7 +715,7 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
 
             case 2:
                 if (!(function_exists('imagecreatefromjpeg'))) {
-                    return NULL;
+                    return null;
                 }
 
                 $water_img = imagecreatefromjpeg($w_img);
@@ -685,7 +723,7 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
 
             case 3:
                 if (!(function_exists('imagecreatefrompng'))) {
-                    return NULL;
+                    return null;
                 }
 
                 $water_img = imagecreatefrompng($w_img);
@@ -693,14 +731,14 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
 
             case 6:
                 if (!(function_exists('imagecreatefromwbmp'))) {
-                    return NULL;
+                    return null;
                 }
 
                 $srcFile_img = imagecreatefromwbmp($w_img);
                 break;
 
             default:
-                return NULL;
+                return null;
         }
     } else {
         $ifWaterImage = 0;
@@ -719,51 +757,69 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
     if ($w_pos == 0) {
         $wX = rand(0, $srcFile_w - $width);
         $wY = rand(0, $srcFile_h - $height);
-    } else if ($w_pos == 1) {
-        $wX = 5;
-
-        if ($ifttf == 1) {
-            $wY = $height + 5;
-        } else {
-            $wY = 5;
-        }
-    } else if ($w_pos == 2) {
-        $wX = 5;
-        $wY = ($srcFile_h - $height) / 2;
-    } else if ($w_pos == 3) {
-        $wX = 5;
-        $wY = $srcFile_h - $height - 5;
-    } else if ($w_pos == 4) {
-        $wX = ($srcFile_w - $width) / 2;
-
-        if ($ifttf == 1) {
-            $wY = $height + 5;
-        } else {
-            $wY = 5;
-        }
-    } else if ($w_pos == 5) {
-        $wX = ($srcFile_w - $width) / 2;
-        $wY = ($srcFile_h - $height) / 2;
-    } else if ($w_pos == 6) {
-        $wX = ($srcFile_w - $width) / 2;
-        $wY = $srcFile_h - $height - 5;
-    } else if ($w_pos == 7) {
-        $wX = $srcFile_w - $width - 5;
-
-        if ($ifttf == 1) {
-            $wY = $height + 5;
-        } else {
-            $wY = 5;
-        }
-    } else if ($w_pos == 8) {
-        $wX = $srcFile_w - $width - 5;
-        $wY = ($srcFile_h - $height) / 2;
-    } else if ($w_pos == 9) {
-        $wX = $srcFile_w - $width - 5;
-        $wY = $srcFile_h - $height - 5;
     } else {
-        $wX = ($srcFile_w - $width) / 2;
-        $wY = ($srcFile_h - $height) / 2;
+        if ($w_pos == 1) {
+            $wX = 5;
+
+            if ($ifttf == 1) {
+                $wY = $height + 5;
+            } else {
+                $wY = 5;
+            }
+        } else {
+            if ($w_pos == 2) {
+                $wX = 5;
+                $wY = ($srcFile_h - $height) / 2;
+            } else {
+                if ($w_pos == 3) {
+                    $wX = 5;
+                    $wY = $srcFile_h - $height - 5;
+                } else {
+                    if ($w_pos == 4) {
+                        $wX = ($srcFile_w - $width) / 2;
+
+                        if ($ifttf == 1) {
+                            $wY = $height + 5;
+                        } else {
+                            $wY = 5;
+                        }
+                    } else {
+                        if ($w_pos == 5) {
+                            $wX = ($srcFile_w - $width) / 2;
+                            $wY = ($srcFile_h - $height) / 2;
+                        } else {
+                            if ($w_pos == 6) {
+                                $wX = ($srcFile_w - $width) / 2;
+                                $wY = $srcFile_h - $height - 5;
+                            } else {
+                                if ($w_pos == 7) {
+                                    $wX = $srcFile_w - $width - 5;
+
+                                    if ($ifttf == 1) {
+                                        $wY = $height + 5;
+                                    } else {
+                                        $wY = 5;
+                                    }
+                                } else {
+                                    if ($w_pos == 8) {
+                                        $wX = $srcFile_w - $width - 5;
+                                        $wY = ($srcFile_h - $height) / 2;
+                                    } else {
+                                        if ($w_pos == 9) {
+                                            $wX = $srcFile_w - $width - 5;
+                                            $wY = $srcFile_h - $height - 5;
+                                        } else {
+                                            $wX = ($srcFile_w - $width) / 2;
+                                            $wY = ($srcFile_h - $height) / 2;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     imagealphablending($srcFile_img, true);
@@ -776,11 +832,12 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
             $G = hexdec(substr($w_color, 3, 2));
             $B = hexdec(substr($w_color, 5));
         } else {
-            return NULL;
+            return null;
         }
 
         if ($ifttf == 1) {
-            imagettftext($srcFile_img, $w_font, 0, $wX, $wY, imagecolorallocate($srcFile_img, $R, $G, $B), $font_type, $w_text);
+            imagettftext($srcFile_img, $w_font, 0, $wX, $wY, imagecolorallocate($srcFile_img, $R, $G, $B), $font_type,
+                $w_text);
         } else {
             imagestring($srcFile_img, $w_font, $wX, $wY, $w_text, imagecolorallocate($srcFile_img, $R, $G, $B));
         }
@@ -816,7 +873,7 @@ function ImgWaterMark($srcFile, $w_pos = 0, $w_img = '', $w_text = '', $w_font =
             break;
 
         default:
-            return NULL;
+            return null;
     }
 
     if (isset($water_info)) {
