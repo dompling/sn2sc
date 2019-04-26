@@ -4,43 +4,40 @@
 $catid = (isset($catid) ? intval($catid) : '');
 $areaid = (isset($areaid) ? intval($areaid) : '');
 require_once MYMPS_DATA . '/info_lasttime.php';
-//require_once MYMPS_INC . '/Wx.php';
+require_once MYMPS_INC . '/Wx.php';
 $authcodesettings = read_static_cache('authcodesettings');
-
-//if (empty($_POST)) {
-//    $Wx = new Wx();
-//    $JssdkConfig = $Wx->GetSignPackage();
-//}
+$Wx = new Wx();
+$JssdkConfig = $Wx->GetSignPackage();
 //强行适配原系统的上传机制
 
-if (is_array($_FILES['file'])) {
-    for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
-        $get_file['mymps_img_' . $i]['name'] = $_FILES['file']['name'][$i];
-        $get_file['mymps_img_' . $i]['type'] = $_FILES['file']['type'][$i];
-        $get_file['mymps_img_' . $i]['tmp_name'] = $_FILES['file']['tmp_name'][$i];
-        $get_file['mymps_img_' . $i]['size'] = $_FILES['file']['size'][$i];
-        $get_file['mymps_img_' . $i]['error'] = $_FILES['file']['error'][$i];
-    }
-}
+//if (is_array($_FILES['file'])) {
+//    for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
+//        $get_file['mymps_img_' . $i]['name'] = $_FILES['file']['name'][$i];
+//        $get_file['mymps_img_' . $i]['type'] = $_FILES['file']['type'][$i];
+//        $get_file['mymps_img_' . $i]['tmp_name'] = $_FILES['file']['tmp_name'][$i];
+//        $get_file['mymps_img_' . $i]['size'] = $_FILES['file']['size'][$i];
+//        $get_file['mymps_img_' . $i]['error'] = $_FILES['file']['error'][$i];
+//    }
+//}
 //判断图片是否被删除
-$post = $_POST;
-if (array_key_exists('del', $post)) {
-    $del = $_POST['del'];
-    foreach ($get_file as $k => $v) {
-        if (in_array('img' . $v['name'], $del)) {
-            unset($get_file[$k]);
-        }
-    }
-}
+//$post = $_POST;
+//if (array_key_exists('del', $post)) {
+//    $del = $_POST['del'];
+//    foreach ($get_file as $k => $v) {
+//        if (in_array('img' . $v['name'], $del)) {
+//            unset($get_file[$k]);
+//        }
+//    }
+//}
 //
-if (array_key_exists('draw', $post)) {
-    $draw = $_POST['draw'];
-    foreach ($get_file as $k => $v) {
-        if (in_array('img' . $v['name'], $draw)) {
-            unset($get_file[$k]);
-        }
-    }
-}
+//if (array_key_exists('draw', $post)) {
+//    $draw = $_POST['draw'];
+//    foreach ($get_file as $k => $v) {
+//        if (in_array('img' . $v['name'], $draw)) {
+//            unset($get_file[$k]);
+//        }
+//    }
+//}
 $img_count = count($get_file);
 
 if ($action == 'post') {
@@ -434,6 +431,8 @@ if ($action == 'post') {
                 $info['imgcode'] = ($authcodesettings['post'] == 1 ? 1 : '');
             }
             $ajaxUrl = $mymps_global['SiteUrl'] . '/publish.php';
+            $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+            $android = (strpos($agent, 'android')) ? true : false;
             include mymps_tpl("post");
         }
 

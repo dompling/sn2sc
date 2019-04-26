@@ -16,11 +16,11 @@ $db_name = "www_sn2scw_com";
 
 //使用的数据库名称
 
-$db_user = "www_sn2scw_com";
+$db_user = "root";
 
 //数据库帐号
 
-$db_pass = "www_sn2scw_com";
+$db_pass = "root";
 
 //数据库密码
 
